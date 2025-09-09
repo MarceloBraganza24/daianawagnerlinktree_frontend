@@ -4,6 +4,208 @@
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+.loadingHome {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 18px;
+}
+
+.adminPanel {
+  background-color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+}
+.adminPanel__title {
+  text-align: center;
+  padding-top: 5vh;
+}
+.adminPanel__btn {
+  display: flex;
+  justify-content: end;
+}
+.adminPanel__btn__prop {
+  background-color: black;
+  color: white;
+  padding: 1vh 2vh;
+  border-radius: 1vh;
+  margin-right: 2vh;
+  cursor: pointer;
+}
+
+.linksManager {
+  background-color: rgb(214, 214, 214);
+  display: flex;
+  flex-direction: column;
+  margin-top: 5vh;
+  padding: 4vh 2vh;
+}
+.linksManager__title {
+  padding-bottom: 2vh;
+  font-size: 30px;
+}
+.linksManager__labelInput {
+  display: flex;
+  padding: 0vh 0vh 2vh 2vh;
+}
+.linksManager__labelInput__label {
+  width: 150px;
+  font-size: 20px;
+}
+.linksManager__labelInput__input {
+  width: 250px;
+  height: 25px;
+  text-align: center;
+}
+.linksManager__imgLink {
+  width: 5%;
+}
+.linksManager__btn {
+  padding-left: 2vh;
+}
+.linksManager__btn__prop {
+  background-color: black;
+  color: white;
+  padding: 1vh 4vh;
+  font-size: 14px;
+  border-radius: 1vh;
+  cursor: pointer;
+}
+.linksManager__linksList {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10vh;
+}
+.linksManager__linksList__ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+.linksManager__linksList__ul__title {
+  font-size: 25px;
+}
+.linksManager__linksList__ul__li {
+  background-color: whitesmoke;
+  display: flex;
+}
+
+.editModalContainer {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999999;
+}
+.editModalContainer__editModal {
+  background-color: whitesmoke;
+  width: 50%;
+  height: auto;
+  position: relative;
+  border-radius: 2vh;
+}
+.editModalContainer__editModal__btnCloseModal {
+  position: absolute;
+  right: 1vh;
+  padding: 1vh;
+}
+.editModalContainer__editModal__btnCloseModal__prop {
+  background-color: black;
+  color: white;
+  padding: 1vh 1.5vh;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.editModalContainer__editModal__title {
+  padding: 2vh;
+  text-align: center;
+  font-size: 30px;
+}
+.editModalContainer__editModal__labelInputContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 1vh;
+}
+.editModalContainer__editModal__labelInputContainer__label {
+  width: 250px;
+  font-size: 20px;
+}
+.editModalContainer__editModal__labelInputContainer__input {
+  width: 250px;
+  height: 25px;
+}
+.editModalContainer__editModal__footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1vh;
+  padding: 2vh;
+}
+.editModalContainer__editModal__footer__btn {
+  background-color: black;
+  color: white;
+  padding: 1vh 4vh;
+  font-size: 14px;
+  border-radius: 1vh;
+  cursor: pointer;
+}
+
+.profileForm {
+  background-color: rgb(214, 214, 214);
+  display: flex;
+  flex-direction: column;
+  padding: 4vh 2vh;
+}
+.profileForm__title {
+  padding-bottom: 2vh;
+  font-size: 30px;
+}
+.profileForm__labelInput {
+  display: flex;
+  align-items: center;
+  padding: 0vh 0vh 2vh 2vh;
+}
+.profileForm__labelInput__label {
+  width: 150px;
+  font-size: 20px;
+}
+.profileForm__labelInput__input {
+  width: 250px;
+  height: 25px;
+  text-align: center;
+}
+.profileForm__labelInput__textArea {
+  width: 250px;
+  height: 50px;
+}
+.profileForm__labelInput__imgAvatar {
+  width: 5%;
+}
+.profileForm__labelInputFile {
+  display: flex;
+  flex-direction: column;
+  padding-left: 2vh;
+}
+.profileForm__btn {
+  padding: 2vh 0vh 0vh 2vh;
+}
+.profileForm__btn__prop {
+  background-color: black;
+  color: white;
+  padding: 1vh 4vh;
+  font-size: 14px;
+  border-radius: 1vh;
+  cursor: pointer;
+}
+
 .homeContainer {
   background-color: rgb(126, 219, 20);
   width: 100%;
