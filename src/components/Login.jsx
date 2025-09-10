@@ -1,6 +1,7 @@
 // components/Login.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -20,7 +21,17 @@ export default function Login() {
 
       if (!res.ok) {
         const err = await res.json().catch(() => null);
-        alert(err?.error || "Usuario o contraseña incorrectos");
+        toast(`Alguno de los datos ingresados es incorrecto`, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            className: "custom-toast",
+        });
         return;
       }
 
@@ -35,27 +46,29 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <form onSubmit={handleSubmit} className="w-full max-w-sm bg-white p-6 rounded-2xl shadow">
-        <h2 className="text-xl font-semibold mb-4">Ingresar al CPanel</h2>
+    <div className="loginContainer">
+      <form onSubmit={handleSubmit} className="loginContainer__form">
+        <h2 className="loginContainer__form__title">Inicio de sesión</h2>
 
-        <input
-          className="w-full border rounded-xl p-2 mb-3"
-          placeholder="Usuario"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          className="w-full border rounded-xl p-2 mb-3"
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="loginContainer__form__inputContainer">
+          <input
+            className="loginContainer__form__inputContainer__input"
+            placeholder="Usuario"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            />
+          <input
+            type="password"
+            className="loginContainer__form__inputContainer__input"
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            />
+        </div>
 
         <button
           type="submit"
-          className="w-full bg-black text-white py-2 rounded-xl"
+          className="loginContainer__form__btn"
           disabled={loading}
         >
           {loading ? "Ingresando…" : "Ingresar"}

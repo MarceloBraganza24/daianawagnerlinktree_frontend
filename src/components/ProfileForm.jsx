@@ -1,6 +1,7 @@
 // components/ProfileForm.jsx
 import React, { useEffect, useState } from "react";
 import { authHeaders } from "../utils/authHeaders";
+import { toast } from "react-toastify";
 
 export default function ProfileForm() {
   const [loading, setLoading] = useState(true);
@@ -54,15 +55,37 @@ export default function ProfileForm() {
 
       if (!res.ok) {
         const err = await res.json().catch(() => ({ error: "Error" }));
-        alert("Error: " + (err.error || "No se pudo guardar"));
+        //alert("Error: " + (err.error || "No se pudo guardar"));
+        toast(`Ha ocurrido un error al guardar, intente nuevamente!`, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            className: "custom-toast",
+        });
         return;
       }
 
       const data = await res.json();
       setAvatarUrl(data.avatar || avatarUrl);
-      alert("Perfil actualizado ✅");
+      toast(`Perfil actualizado ✅`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          className: "custom-toast",
+      });
     } catch (err) {
-      alert("Error al guardar perfil");
+      //alert("Error al guardar perfil");
+      console.error("Error: ",err)
     } finally {
       setSaving(false);
     }
@@ -91,7 +114,7 @@ export default function ProfileForm() {
             <div className="profileForm__labelInput">
               <label className="profileForm__labelInput__label">Foto de perfil</label>
               {avatarFile ? (
-                <img src={URL.createObjectURL(avatarFile)} alt="preview" className="" />
+                <img src={URL.createObjectURL(avatarFile)} alt="preview" className="profileForm__labelInput__imgAvatar" />
               ) : avatarUrl ? (
                 <img src={`http://localhost:5000${avatarUrl}`} alt="avatar" className="profileForm__labelInput__imgAvatar" />
               ) : (
@@ -100,7 +123,6 @@ export default function ProfileForm() {
             </div>
 
             <div className="profileForm__labelInputFile">
-              {/* <label className="profileForm__labelInput__label">Foto de perfil</label> */}
               <input type="file" accept="image/*" onChange={handleFile} />
               <p className="">JPG/PNG/GIF. Máx 2MB.</p>
             </div>

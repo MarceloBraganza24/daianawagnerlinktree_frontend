@@ -1,7 +1,10 @@
 // components/LinksManager.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef  } from "react";
 import Modal from "./Modal";
 import { authHeaders } from "../utils/authHeaders";
+import Spinner from "./Spinner";
+//import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 export default function LinksManager() {
   const emptyForm = { url_destino: "", img_link: "", descripcion_link: "" };
@@ -9,15 +12,20 @@ export default function LinksManager() {
   const [form, setForm] = useState(emptyForm);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
+  const fileInputRef = useRef(null);
 
   // edición
   const [editOpen, setEditOpen] = useState(false);
   const [editForm, setEditForm] = useState(emptyForm);
   const [editId, setEditId] = useState(null);
   const [savingEdit, setSavingEdit] = useState(false);
-
+  
   const [file, setFile] = useState(null);
   const [editFile, setEditFile] = useState(null);
+  
+  const [showConfirmationDeleteLinkModal, setShowConfirmationDeleteLinkModal] = useState(false);
+  const [linkId, setLinkId] = useState("");
+  const [linkDescription, setLinkDescription] = useState("");
 
   const fetchLinks = async () => {
     setLoading(true);
@@ -25,7 +33,7 @@ export default function LinksManager() {
       const res = await fetch("http://localhost:5000/api/links", { headers: authHeaders(false) });
       if (res.ok) {
         const data = await res.json();
-        console.log("Links recibidos:", data);
+        //console.log("Links recibidos:", data);
         setLinks(Array.isArray(data) ? data : []);
       } else {
         setLinks([]);
@@ -67,7 +75,8 @@ export default function LinksManager() {
       }
       setForm(emptyForm);
       setFile(null);
-      fetchLinks();
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      await fetchLinks();
     } catch (err) {
       alert("Error al conectar con el servidor");
     } finally {
@@ -119,22 +128,97 @@ export default function LinksManager() {
     }
   };
 
-  const removeLink = async (id) => {
-    if (!window.confirm("¿Eliminar este link?")) return;
-    try {
-      const res = await fetch(`http://localhost:5000/api/links/${id}`, {
-        method: "DELETE",
-        headers: authHeaders(false),
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        alert("Error al eliminar: " + (err.error || res.status));
-        return;
-      }
-      fetchLinks();
-    } catch (err) {
-      alert("Error al conectar con el servidor");
-    }
+  const handleBtnRemoveLink = async (id,description) => {
+    setLinkId(id)
+    setLinkDescription(description)
+    setShowConfirmationDeleteLinkModal(true)
+  };
+
+  const ConfirmationDeleteLinkModal = () => {
+      const [loading, setLoading] = useState(false);
+
+      const removeLink = async () => {
+        try {
+          setLoading(true)
+          const res = await fetch(`http://localhost:5000/api/links/${linkId}`, {
+            method: "DELETE",
+            headers: authHeaders(false),
+          });
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            alert("Error al eliminar: " + (err.error || res.status));
+            return;
+          }
+          fetchLinks();
+          setShowConfirmationDeleteLinkModal(false);
+        } catch (err) {
+          alert("Error al conectar con el servidor");
+        } finally {
+          setLoading(false)
+        }
+      };
+
+    return (
+      <>
+
+          <div className='confirmationDeleteModalContainer'>
+
+              <div className='confirmationDeleteModalContainer__confirmationModal'>
+
+                  <div className='confirmationDeleteModalContainer__confirmationModal__btnCloseModal'>
+                      <div onClick={()=>setShowConfirmationDeleteLinkModal(false)} className='confirmationDeleteModalContainer__confirmationModal__btnCloseModal__btn'>X</div>
+                  </div>
+                  
+                  <div className='confirmationDeleteModalContainer__confirmationModal__title'>
+                      <div className='confirmationDeleteModalContainer__confirmationModal__title__prop'>¿Estás seguro que deseas eliminar el link con la siguiente descripción? <br />Descripción:  {linkDescription}</div>
+                  </div>
+
+                  <div className='confirmationDeleteModalContainer__confirmationModal__btnContainer'>
+                      {loading ? (
+                          <button
+                          disabled
+                          className='confirmationDeleteModalContainer__confirmationModal__btnContainer__btn'
+                          >
+                          <Spinner/>
+                          </button>
+                      ) : (
+                          <button
+                          onClick={removeLink}
+                          className='confirmationDeleteModalContainer__confirmationModal__btnContainer__btn'
+                          >
+                          Si
+                          </button>
+                      )}
+                      <button onClick={()=>setShowConfirmationDeleteLinkModal(false)} className='confirmationDeleteModalContainer__confirmationModal__btnContainer__btn'>No</button>
+                  </div>
+
+              </div>
+      
+          </div>
+      </>
+    )
+  }
+
+  const handleDragEnd = async (result) => {
+    if (!result.destination) return;
+
+    const newLinks = Array.from(links);
+    const [moved] = newLinks.splice(result.source.index, 1);
+    newLinks.splice(result.destination.index, 0, moved);
+
+    setLinks(newLinks);
+
+    // Mandar nuevo orden al backend
+    const orderedIds = newLinks.map((l) => l._id);
+    const res = await fetch("http://localhost:5000/api/links/reorder", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ...authHeaders(false),
+      },
+      body: JSON.stringify({ orderedIds }),
+    });
+    console.log(res)
   };
 
   return (
@@ -161,6 +245,7 @@ export default function LinksManager() {
               <input
               type="file"
               accept="image/*"
+              ref={fileInputRef}
               onChange={(e) => setFile(e.target.files[0])}
               />
             </div>
@@ -184,7 +269,7 @@ export default function LinksManager() {
 
         </form>
 
-        <div className="linksManager__linksList">
+        {/* <div className="linksManager__linksList">
             {loading ? (
             <p className="">Cargando links…</p>
             ) : links.length === 0 ? (
@@ -194,54 +279,92 @@ export default function LinksManager() {
                 <div className="linksManager__linksList__ul__title">Lista de links cargados</div>
                 {links.map((link) => (
                 <li key={link._id} className="linksManager__linksList__ul__li">
-                    <div className="">
-                    {link.img_link ? (
-                        <img src={`http://localhost:5000${link.img_link}`} alt="thumb" className="linksManager__imgLink" />
-                    ) : (
-                        <div className="">sin imagen</div>
-                    )}
+
+                    <div className="linksManager__linksList__ul__li__imgLink">
+                      {link.img_link ? (
+                          <img src={`http://localhost:5000${link.img_link}`} alt="thumb" className="linksManager__linksList__ul__li__imgLink__prop" />
+                      ) : (
+                          <div className="">sin imagen</div>
+                      )}
                     </div>
 
-                    <div className="">
-                    <p className="">{link.descripcion_link || "(Sin descripción)"}</p>
-                    <a className="" href={link.url_destino} target="_blank" rel="noreferrer">
-                        {link.url_destino}
-                    </a>
+                    <div className="linksManager__linksList__ul__li__description">
+                      <p className="linksManager__linksList__ul__li__description__label">{link.descripcion_link || "(Sin descripción)"}</p>
+                      <a className="linksManager__linksList__ul__li__description__link" href={link.url_destino} target="_blank" rel="noreferrer">
+                          {link.url_destino}
+                      </a>
                     </div>
 
-                    <div className="">
-                    <button className="" onClick={() => openEdit(link)}>Editar</button>
-                    <button className="" onClick={() => removeLink(link._id)}>Eliminar</button>
+                    <div className="linksManager__linksList__ul__li__itemBtn">
+                      <button className="linksManager__linksList__ul__li__itemBtn__prop" onClick={() => openEdit(link)}>Editar</button>
+                      <button className="linksManager__linksList__ul__li__itemBtn__prop" onClick={() => handleBtnRemoveLink(link._id, link.descripcion_link)}>Eliminar</button>
                     </div>
                 </li>
                 ))}
             </ul>
             )}
+        </div> */}
+        <div className="linksManager__linksList">
+          {loading ? (
+            <p>Cargando links…</p>
+          ) : links.length === 0 ? (
+            <p>No hay links aún.</p>
+          ) : (
+            <DragDropContext onDragEnd={handleDragEnd}>
+              <Droppable droppableId="links">
+                {(provided) => (
+                  <ul
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="linksManager__linksList__ul"
+                  >
+                    {links.map((link, index) => (
+                      <Draggable key={link._id} draggableId={link._id} index={index}>
+                        {(provided) => (
+                          <>
+                          <li
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className="linksManager__linksList__ul__li"
+                          >
+                            <div className="linksManager__linksList__ul__li__imgLink">
+                              {link.img_link ? (
+                                <img
+                                  src={`http://localhost:5000${link.img_link}`}
+                                  alt="thumb"
+                                  className="linksManager__linksList__ul__li__imgLink__prop"
+                                />
+                              ) : (
+                                <div>sin imagen</div>
+                              )}
+                            </div>
+
+                            <div className="linksManager__linksList__ul__li__description">
+                              <p className="linksManager__linksList__ul__li__description__label">{link.descripcion_link || "(Sin descripción)"}</p>
+                              <a className="linksManager__linksList__ul__li__description__link" href={link.url_destino} target="_blank" rel="noreferrer">
+                                {link.url_destino}
+                              </a>
+                            </div>
+
+                            <div className="linksManager__linksList__ul__li__itemBtn">
+                              <button className="linksManager__linksList__ul__li__itemBtn__prop" onClick={() => openEdit(link)}>Editar</button>
+                              <button className="linksManager__linksList__ul__li__itemBtn__prop" onClick={() => handleBtnRemoveLink(link._id, link.descripcion_link)}>Eliminar</button>
+                            </div>
+                            <div className="linksManager__linksList__ul__li__clicks">Clics: {link.clicks || 0}</div>
+                          </li>
+                          </>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </ul>
+                )}
+              </Droppable>
+            </DragDropContext>
+          )}
         </div>
 
-        {/* <Modal open={editOpen} title="Editar link" onClose={() => setEditOpen(false)} footer={
-            <>
-            <button className="editModalContainer__editModal__footer__btn" onClick={() => setEditOpen(false)}>Cancelar</button>
-            <button className="editModalContainer__editModal__footer__btn" onClick={saveEdit} disabled={savingEdit}>
-                {savingEdit ? "Guardando…" : "Guardar cambios"}
-            </button>
-            </>
-        }>
-            <div className="editModalContainer__editModal__labelInputContainer">
-              <div className="editModalContainer__editModal__labelInputContainer__label">URL destino</div>
-              <input className="editModalContainer__editModal__labelInputContainer__input" value={editForm.url_destino} onChange={(e) => setEditForm({ ...editForm, url_destino: e.target.value })} />
-            </div>
-
-            <div className="editModalContainer__editModal__labelInputContainer">
-              <div className="editModalContainer__editModal__labelInputContainer__label">URL imagen (opcional)</div>
-              <input className="editModalContainer__editModal__labelInputContainer__input" value={editForm.img_link} onChange={(e) => setEditForm({ ...editForm, img_link: e.target.value })} />
-            </div>
-
-            <div className="editModalContainer__editModal__labelInputContainer">
-              <div className="editModalContainer__editModal__labelInputContainer__label">Descripción</div>
-              <input className="editModalContainer__editModal__labelInputContainer__input" value={editForm.descripcion_link} onChange={(e) => setEditForm({ ...editForm, descripcion_link: e.target.value })} />
-            </div>
-        </Modal> */}
         <Modal
           open={editOpen}
           title="Editar link"
@@ -264,6 +387,37 @@ export default function LinksManager() {
             </>
           }
         >
+          <div className="editModalContainer__editModal__labelInputFileContainer">
+            <div className="editModalContainer__editModal__labelInputFileContainer__label">
+              Imagen actual
+            </div>
+            {editForm.img_link ? (
+              <div className="editModalContainer__editModal__labelInputFileContainer__img">
+                <img
+                  src={`http://localhost:5000${editForm.img_link}`}
+                  alt="preview"
+                  className="editModalContainer__editModal__labelInputFileContainer__img__prop"
+                  />
+              </div>
+            ) : (
+              <p>Sin imagen</p>
+            )}
+
+          </div>
+
+          <div className="editModalContainer__editModal__labelInputContainer" style={{paddingBottom:'4vh'}}>
+
+            <div className="editModalContainer__editModal__labelInputContainer__label">
+              Cambiar imagen
+            </div>
+            <input
+              className="editModalContainer__editModal__labelInputContainer__input"
+              type="file"
+              accept="image/*"
+              onChange={(e) => setEditFile(e.target.files[0])}
+            />
+          </div>
+
           <div className="editModalContainer__editModal__labelInputContainer">
             <div className="editModalContainer__editModal__labelInputContainer__label">
               URL destino
@@ -277,30 +431,6 @@ export default function LinksManager() {
             />
           </div>
 
-          {/* Imagen actual + inputFile para nueva imagen */}
-          <div className="editModalContainer__editModal__labelInputContainer">
-            <div className="editModalContainer__editModal__labelInputContainer__label">
-              Imagen actual
-            </div>
-            {editForm.img_link ? (
-              <img
-                src={`http://localhost:5000${editForm.img_link}`}
-                alt="preview"
-                style={{ width: "120px", marginBottom: "8px" }}
-              />
-            ) : (
-              <p>Sin imagen</p>
-            )}
-
-            <div className="editModalContainer__editModal__labelInputContainer__label">
-              Cambiar imagen
-            </div>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setEditFile(e.target.files[0])}
-            />
-          </div>
 
           <div className="editModalContainer__editModal__labelInputContainer">
             <div className="editModalContainer__editModal__labelInputContainer__label">
@@ -315,6 +445,10 @@ export default function LinksManager() {
             />
           </div>
         </Modal>
+        {
+          showConfirmationDeleteLinkModal &&
+          <ConfirmationDeleteLinkModal/>
+        }
     </div>
   );
 }

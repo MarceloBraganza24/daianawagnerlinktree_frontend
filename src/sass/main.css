@@ -26,6 +26,7 @@
 .adminPanel__btn {
   display: flex;
   justify-content: end;
+  padding-bottom: 1vh;
 }
 .adminPanel__btn__prop {
   background-color: black;
@@ -34,6 +35,11 @@
   border-radius: 1vh;
   margin-right: 2vh;
   cursor: pointer;
+}
+.adminPanel__btn__prop:hover {
+  background-color: white;
+  color: black;
+  border: 0.3vh solid black;
 }
 
 .linksManager {
@@ -60,9 +66,6 @@
   height: 25px;
   text-align: center;
 }
-.linksManager__imgLink {
-  width: 5%;
-}
 .linksManager__btn {
   padding-left: 2vh;
 }
@@ -73,6 +76,11 @@
   font-size: 14px;
   border-radius: 1vh;
   cursor: pointer;
+}
+.linksManager__btn__prop:hover {
+  background-color: white;
+  color: black;
+  border: 0.3vh solid black;
 }
 .linksManager__linksList {
   display: flex;
@@ -88,8 +96,62 @@
   font-size: 25px;
 }
 .linksManager__linksList__ul__li {
+  width: 60%;
   background-color: whitesmoke;
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 1fr 0.5fr;
+  padding: 1vh 0vh;
+  border-radius: 1vh;
+}
+.linksManager__linksList__ul__li__clicks {
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.linksManager__linksList__ul__li__imgLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.linksManager__linksList__ul__li__imgLink__prop {
+  width: 60%;
+}
+.linksManager__linksList__ul__li__description {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.linksManager__linksList__ul__li__description__label {
+  font-size: 16px;
+}
+.linksManager__linksList__ul__li__description__link {
+  text-decoration: none;
+  color: black;
+}
+.linksManager__linksList__ul__li__itemBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.5vh;
+}
+.linksManager__linksList__ul__li__itemBtn__prop {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  background-color: black;
+  color: white;
+  padding: 1vh 0vh;
+  font-size: 14px;
+  border-radius: 1vh;
+  cursor: pointer;
+}
+.linksManager__linksList__ul__li__itemBtn__prop:hover {
+  background-color: white;
+  color: black;
+  border: 0.3vh solid black;
 }
 
 .editModalContainer {
@@ -123,6 +185,11 @@
   border-radius: 50%;
   cursor: pointer;
 }
+.editModalContainer__editModal__btnCloseModal__prop:hover {
+  background-color: white;
+  color: black;
+  border: 0.3vh solid black;
+}
 .editModalContainer__editModal__title {
   padding: 2vh;
   text-align: center;
@@ -142,6 +209,24 @@
   width: 250px;
   height: 25px;
 }
+.editModalContainer__editModal__labelInputFileContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 1vh;
+}
+.editModalContainer__editModal__labelInputFileContainer__label {
+  width: 250px;
+  font-size: 20px;
+}
+.editModalContainer__editModal__labelInputFileContainer__img {
+  display: flex;
+  align-items: center;
+  width: 250px;
+}
+.editModalContainer__editModal__labelInputFileContainer__img__prop {
+  width: 25%;
+}
 .editModalContainer__editModal__footer {
   display: flex;
   justify-content: center;
@@ -157,7 +242,155 @@
   border-radius: 1vh;
   cursor: pointer;
 }
+.editModalContainer__editModal__footer__btn:hover {
+  background-color: white;
+  color: black;
+  border: 0.3vh solid black;
+}
 
+.confirmationDeleteModalContainer {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999999;
+}
+.confirmationDeleteModalContainer__confirmationModal {
+  background-color: whitesmoke;
+  max-width: 80%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.5vh;
+  padding: 0vh 4vh 4vh 4vh;
+}
+.confirmationDeleteModalContainer__confirmationModal__btnCloseModal {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  padding: 2vh 0vh;
+}
+.confirmationDeleteModalContainer__confirmationModal__btnCloseModal__btn {
+  font-size: 20px;
+  padding-right: 2vh;
+  cursor: pointer;
+}
+.confirmationDeleteModalContainer__confirmationModal__title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0vh 0vh 2vh 0vh;
+}
+.confirmationDeleteModalContainer__confirmationModal__title__prop {
+  text-align: center;
+  font-size: 22px;
+  white-space: pre-line;
+}
+.confirmationDeleteModalContainer__confirmationModal__btnContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2vh;
+  gap: 5vh;
+}
+.confirmationDeleteModalContainer__confirmationModal__btnContainer__btn {
+  width: 15%;
+  background-color: black;
+  color: white;
+  padding: 1vh 4vh;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1vh;
+  cursor: pointer;
+}
+.confirmationDeleteModalContainer__confirmationModal__btnContainer__btn:hover {
+  background-color: white;
+  color: black;
+  border: 0.3vh solid black;
+}
+
+.custom-toast .Toastify__progress-bar {
+  background-color: white !important;
+}
+
+.loginContainer {
+  background-color: whitesmoke;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loginContainer__form {
+  background-color: rgb(214, 214, 214);
+  width: 30%;
+  height: 30vh;
+  border-radius: 2vh;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loginContainer__form__title {
+  font-size: 30px;
+}
+.loginContainer__form__inputContainer {
+  width: 100%;
+  padding: 2vh 0vh;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1vh;
+}
+.loginContainer__form__inputContainer__input {
+  width: 50%;
+  height: 25px;
+  text-align: center;
+}
+.loginContainer__form__btn {
+  width: 30%;
+  background-color: black;
+  color: white;
+  padding: 1vh 4vh;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1vh;
+  cursor: pointer;
+}
+.loginContainer__form__btn:hover {
+  background-color: white;
+  color: black;
+  border: 0.3vh solid black;
+}
+
+.spinner {
+  border: 5px solid black;
+  border-top: 5px solid grey;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .profileForm {
   background-color: rgb(214, 214, 214);
   display: flex;
@@ -205,6 +438,11 @@
   border-radius: 1vh;
   cursor: pointer;
 }
+.profileForm__btn__prop:hover {
+  background-color: white;
+  color: black;
+  border: 0.3vh solid black;
+}
 
 .homeContainer {
   background-color: rgb(126, 219, 20);
@@ -238,12 +476,18 @@
 .homeContainer__linkTreeContainer__name {
   padding-top: 2vh;
   text-align: center;
-  font-size: 20px;
+  font-size: 25px;
 }
 .homeContainer__linkTreeContainer__description {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.homeContainer__linkTreeContainer__description__prop {
+  width: 70%;
   padding-top: 1vh;
-  text-align: center;
-  font-size: 16px;
+  font-size: 18px;
 }
 .homeContainer__linkTreeContainer__links {
   padding: 5vh 0vh;

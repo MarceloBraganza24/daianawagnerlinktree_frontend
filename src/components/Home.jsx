@@ -35,7 +35,9 @@ const Home = () => {
 
                             <div className='homeContainer__linkTreeContainer__name'>{profile?.nombreProfesional}</div>
 
-                            <div className='homeContainer__linkTreeContainer__description'>{profile?.descripcionProfesional}</div>
+                            <div className='homeContainer__linkTreeContainer__description'>
+                                <div className='homeContainer__linkTreeContainer__description__prop'>{profile?.descripcionProfesional}</div>
+                            </div>
 
                             <div className='homeContainer__linkTreeContainer__links'>
 
@@ -44,9 +46,10 @@ const Home = () => {
                                     <a 
                                         className='homeContainer__linkTreeContainer__links__link'
                                         key={link._id}
-                                        href={link.url_destino}
+                                        /* href={link.url_destino} */
+                                        href={`http://localhost:5000/api/public/click/${link._id}`}
                                         target="_blank"
-                                        rel="noopener noreferrer"
+                                        rel="noreferrer"
                                     >
 
                                         <div className='homeContainer__linkTreeContainer__links__link__img'>
