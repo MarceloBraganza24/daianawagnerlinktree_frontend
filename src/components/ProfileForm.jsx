@@ -10,11 +10,12 @@ export default function ProfileForm() {
   const [descripcionProfesional, setDescripcion] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [avatarFile, setAvatarFile] = useState(null);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/profile", { headers: authHeaders(false) });
+        const res = await fetch(`${API_URL}/api/profile`, { headers: authHeaders(false) });
         if (res.ok) {
           const data = await res.json();
           if (data) {
@@ -47,7 +48,7 @@ export default function ProfileForm() {
       fd.append("descripcionProfesional", descripcionProfesional);
       if (avatarFile) fd.append("avatar", avatarFile);
 
-      const res = await fetch("http://localhost:5000/api/profile", {
+      const res = await fetch(`${API_URL}/api/profile`, {
         method: "PUT",
         headers: authHeaders(false), // NO poner Content-Type para FormData
         body: fd,
@@ -116,7 +117,7 @@ export default function ProfileForm() {
               {avatarFile ? (
                 <img src={URL.createObjectURL(avatarFile)} alt="preview" className="profileForm__labelInput__imgAvatar" />
               ) : avatarUrl ? (
-                <img src={`http://localhost:5000${avatarUrl}`} alt="avatar" className="profileForm__labelInput__imgAvatar" />
+                <img src={`${API_URL}${avatarUrl}`} alt="avatar" className="profileForm__labelInput__imgAvatar" />
               ) : (
                 <div className="">Sin imagen</div>
               )}

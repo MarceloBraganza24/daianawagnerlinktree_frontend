@@ -8,12 +8,13 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -39,7 +40,18 @@ export default function Login() {
       localStorage.setItem("token", data.token);
       navigate("/admin");
     } catch (err) {
-      alert("Error al conectar con el servidor");
+      //alert("Error al conectar con el servidor");
+      toast(`Error al conectar con el servidor`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          className: "custom-toast",
+      });
     } finally {
       setLoading(false);
     }

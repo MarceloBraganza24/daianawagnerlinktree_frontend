@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { setFavicon } from "../utils/setFavicon";
 
 const Home = () => {
     const [profile, setProfile] = useState(null);
     const [links, setLinks] = useState([]);
+    const API_URL = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
-        axios.get("http://localhost:5000/api/public/home")
+        axios.get(`${API_URL}/api/public/home`)
         .then(res => {
             setProfile(res.data.profile);
             setLinks(res.data.links);
+            if (res.data.profile?.avatar) {
+                setFavicon(`${API_URL}${res.data.profile.avatar}`);
+            }
         })
         .catch(err => console.error(err));
     }, []);
-
-    /* if (!profile?.nombreProfesional) return <div className="loadingHome">Cargando...</div>; */
 
     return (
 
@@ -30,7 +33,7 @@ const Home = () => {
                         <>
                         
                             <div  className='homeContainer__linkTreeContainer__img'>
-                                <img className='homeContainer__linkTreeContainer__img__prop' src={`http://localhost:5000${profile?.avatar}`} alt="img_client" />
+                                <img className='homeContainer__linkTreeContainer__img__prop' src={`${API_URL}${profile?.avatar}`} alt="img_client" />
                             </div>
 
                             <div className='homeContainer__linkTreeContainer__name'>{profile?.nombreProfesional}</div>
@@ -46,17 +49,18 @@ const Home = () => {
                                     <a 
                                         className='homeContainer__linkTreeContainer__links__link'
                                         key={link._id}
-                                        /* href={link.url_destino} */
-                                        href={`http://localhost:5000/api/public/click/${link._id}`}
+                                        href={`${API_URL}/api/public/click/${link._id}`}
                                         target="_blank"
                                         rel="noreferrer"
                                     >
 
                                         <div className='homeContainer__linkTreeContainer__links__link__img'>
-                                            <img className='homeContainer__linkTreeContainer__links__link__img__prop' src={`http://localhost:5000${link.img_link}`} alt="img_miniature" />
+                                            <img className='homeContainer__linkTreeContainer__links__link__img__prop' src={`${API_URL}${link.img_link}`} alt="img_miniature" />
                                         </div>
 
-                                        <div className='homeContainer__linkTreeContainer__links__link__label'>{link.descripcion_link}</div>
+                                        <div className="homeContainer__linkTreeContainer__links__link__label">
+                                            <div className='homeContainer__linkTreeContainer__links__link__label__prop'>{link.descripcion_link}</div>
+                                        </div>
 
                                     </a>
                                 ))}

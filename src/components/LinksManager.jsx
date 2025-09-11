@@ -13,6 +13,7 @@ export default function LinksManager() {
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
   const fileInputRef = useRef(null);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   // edición
   const [editOpen, setEditOpen] = useState(false);
@@ -30,10 +31,9 @@ export default function LinksManager() {
   const fetchLinks = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/links", { headers: authHeaders(false) });
+      const res = await fetch(`${API_URL}/api/links`, { headers: authHeaders(false) });
       if (res.ok) {
         const data = await res.json();
-        //console.log("Links recibidos:", data);
         setLinks(Array.isArray(data) ? data : []);
       } else {
         setLinks([]);
@@ -48,7 +48,6 @@ export default function LinksManager() {
 
   useEffect(() => {
     fetchLinks();
-    // eslint-disable-next-line
   }, []);
 
   const handleCreate = async (e) => {
@@ -60,7 +59,7 @@ export default function LinksManager() {
       formData.append("descripcion_link", form.descripcion_link);
       if (file) formData.append("img_link", file);
 
-      const res = await fetch("http://localhost:5000/api/links", {
+      const res = await fetch(`${API_URL}/api/links`, {
         method: "POST",
         headers: {
           Authorization: authHeaders(true).Authorization, // solo auth, sin Content-Type
@@ -69,8 +68,19 @@ export default function LinksManager() {
       });
 
       if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        alert("Error al crear: " + (err.error || res.status));
+        //const err = await res.json().catch(() => ({}));
+        //alert("Error al crear: " + (err.error || res.status));
+        toast(`Error al crear link, intente nuevamente!`, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            className: "custom-toast",
+        });
         return;
       }
       setForm(emptyForm);
@@ -78,7 +88,18 @@ export default function LinksManager() {
       if (fileInputRef.current) fileInputRef.current.value = "";
       await fetchLinks();
     } catch (err) {
-      alert("Error al conectar con el servidor");
+      toast(`Error al conectar con el servidor`, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            className: "custom-toast",
+        });
+      //alert("Error al conectar con el servidor");
     } finally {
       setCreating(false);
     }
@@ -104,7 +125,7 @@ export default function LinksManager() {
       formData.append("descripcion_link", editForm.descripcion_link);
       if (editFile) formData.append("img_link", editFile);
 
-      const res = await fetch(`http://localhost:5000/api/links/${editId}`, {
+      const res = await fetch(`${API_URL}/api/links/${editId}`, {
         method: "PUT",
         headers: {
           Authorization: authHeaders(true).Authorization,
@@ -113,8 +134,19 @@ export default function LinksManager() {
       });
 
       if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        alert("Error al actualizar: " + (err.error || res.status));
+        //const err = await res.json().catch(() => ({}));
+        toast(`Error al actualizar link, intente nuevamente!`, {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              className: "custom-toast",
+        });
+        //alert("Error al actualizar: " + (err.error || res.status));
         return;
       }
       setEditOpen(false);
@@ -122,7 +154,18 @@ export default function LinksManager() {
       setEditFile(null);
       fetchLinks();
     } catch (err) {
-      alert("Error al conectar con el servidor");
+      toast(`Error al conectar con el servidor`, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            className: "custom-toast",
+      });
+      //alert("Error al conectar con el servidor");
     } finally {
       setSavingEdit(false);
     }
@@ -140,19 +183,41 @@ export default function LinksManager() {
       const removeLink = async () => {
         try {
           setLoading(true)
-          const res = await fetch(`http://localhost:5000/api/links/${linkId}`, {
+          const res = await fetch(`${API_URL}/api/links/${linkId}`, {
             method: "DELETE",
             headers: authHeaders(false),
           });
           if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            alert("Error al eliminar: " + (err.error || res.status));
+            //const err = await res.json().catch(() => ({}));
+            toast(`Error al eliminar link, intente nuevamente!`, {
+                  position: "top-right",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "dark",
+                  className: "custom-toast",
+            });
+            //alert("Error al eliminar: " + (err.error || res.status));
             return;
           }
           fetchLinks();
           setShowConfirmationDeleteLinkModal(false);
         } catch (err) {
-          alert("Error al conectar con el servidor");
+          toast(`Error al conectar con el servidor`, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                className: "custom-toast",
+          });
+          //alert("Error al conectar con el servidor");
         } finally {
           setLoading(false)
         }
@@ -210,7 +275,7 @@ export default function LinksManager() {
 
     // Mandar nuevo orden al backend
     const orderedIds = newLinks.map((l) => l._id);
-    const res = await fetch("http://localhost:5000/api/links/reorder", {
+    const res = await fetch(`${API_URL}/api/links/reorder`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -218,7 +283,6 @@ export default function LinksManager() {
       },
       body: JSON.stringify({ orderedIds }),
     });
-    console.log(res)
   };
 
   return (
@@ -269,41 +333,6 @@ export default function LinksManager() {
 
         </form>
 
-        {/* <div className="linksManager__linksList">
-            {loading ? (
-            <p className="">Cargando links…</p>
-            ) : links.length === 0 ? (
-            <p className="">No hay links aún.</p>
-            ) : (
-            <ul className="linksManager__linksList__ul">
-                <div className="linksManager__linksList__ul__title">Lista de links cargados</div>
-                {links.map((link) => (
-                <li key={link._id} className="linksManager__linksList__ul__li">
-
-                    <div className="linksManager__linksList__ul__li__imgLink">
-                      {link.img_link ? (
-                          <img src={`http://localhost:5000${link.img_link}`} alt="thumb" className="linksManager__linksList__ul__li__imgLink__prop" />
-                      ) : (
-                          <div className="">sin imagen</div>
-                      )}
-                    </div>
-
-                    <div className="linksManager__linksList__ul__li__description">
-                      <p className="linksManager__linksList__ul__li__description__label">{link.descripcion_link || "(Sin descripción)"}</p>
-                      <a className="linksManager__linksList__ul__li__description__link" href={link.url_destino} target="_blank" rel="noreferrer">
-                          {link.url_destino}
-                      </a>
-                    </div>
-
-                    <div className="linksManager__linksList__ul__li__itemBtn">
-                      <button className="linksManager__linksList__ul__li__itemBtn__prop" onClick={() => openEdit(link)}>Editar</button>
-                      <button className="linksManager__linksList__ul__li__itemBtn__prop" onClick={() => handleBtnRemoveLink(link._id, link.descripcion_link)}>Eliminar</button>
-                    </div>
-                </li>
-                ))}
-            </ul>
-            )}
-        </div> */}
         <div className="linksManager__linksList">
           {loading ? (
             <p>Cargando links…</p>
@@ -331,7 +360,7 @@ export default function LinksManager() {
                             <div className="linksManager__linksList__ul__li__imgLink">
                               {link.img_link ? (
                                 <img
-                                  src={`http://localhost:5000${link.img_link}`}
+                                  src={`${API_URL}${link.img_link}`}
                                   alt="thumb"
                                   className="linksManager__linksList__ul__li__imgLink__prop"
                                 />
@@ -394,7 +423,7 @@ export default function LinksManager() {
             {editForm.img_link ? (
               <div className="editModalContainer__editModal__labelInputFileContainer__img">
                 <img
-                  src={`http://localhost:5000${editForm.img_link}`}
+                  src={`${API_URL}${editForm.img_link}`}
                   alt="preview"
                   className="editModalContainer__editModal__labelInputFileContainer__img__prop"
                   />
