@@ -445,7 +445,7 @@
 }
 
 .homeContainer {
-  background-color: rgb(126, 219, 20);
+  background-color: whitesmoke;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -536,13 +536,462 @@
   min-width: max-content;
   text-align: center;
   color: white;
-  font-size: 14px;
+  font-size: 15px;
   padding: 0 8px;
 }
 
 @media (max-width: 376px) {
+  .adminPanel {
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+  }
+  .adminPanel__title {
+    text-align: center;
+    padding-top: 5vh;
+    font-size: 30px;
+  }
+  .adminPanel__btn {
+    display: flex;
+    justify-content: end;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+  }
+  .adminPanel__btn__prop {
+    background-color: black;
+    color: white;
+    padding: 0.5vh 2vh;
+    border-radius: 1vh;
+    margin-right: 2vh;
+    cursor: pointer;
+  }
+  .adminPanel__btn__prop:hover {
+    background-color: white;
+    color: black;
+    border: 0.3vh solid black;
+  }
+  .linksManager {
+    background-color: rgb(214, 214, 214);
+    display: flex;
+    flex-direction: column;
+    margin-top: 5vh;
+    padding: 4vh 2vh;
+  }
+  .linksManager__title {
+    padding-bottom: 2vh;
+    font-size: 25px;
+  }
+  .linksManager__labelInput {
+    display: flex;
+    align-items: center;
+    padding: 0vh 0vh 2vh 2vh;
+  }
+  .linksManager__labelInput__label {
+    width: 120px;
+    font-size: 16px;
+  }
+  .linksManager__labelInput__input {
+    width: 200px;
+    height: 25px;
+    text-align: center;
+  }
+  .linksManager__btn {
+    padding-left: 0vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .linksManager__btn__prop {
+    background-color: black;
+    color: white;
+    padding: 1vh 4vh;
+    font-size: 14px;
+    border-radius: 1vh;
+    cursor: pointer;
+  }
+  .linksManager__btn__prop:hover {
+    background-color: white;
+    color: black;
+    border: 0.3vh solid black;
+  }
+  .linksManager__linksList {
+    display: none;
+  }
+  .linksManager__linksListMobile {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10vh;
+  }
+  .linksManager__linksListMobile__ul {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+  }
+  .linksManager__linksListMobile__ul__title {
+    font-size: 25px;
+  }
+  .linksManager__linksListMobile__ul__li {
+    width: 100%;
+    background-color: whitesmoke;
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 1fr;
+    padding: 1vh 0vh;
+    border-radius: 1vh;
+  }
+  .linksManager__linksListMobile__ul__li__imgLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .linksManager__linksListMobile__ul__li__imgLink__prop {
+    width: 80%;
+  }
+  .linksManager__linksListMobile__ul__li__description {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5vh;
+    overflow-x: auto;
+  }
+  .linksManager__linksListMobile__ul__li__description__label {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .linksManager__linksListMobile__ul__li__description__label::-webkit-scrollbar {
+    display: none; /* Oculta la barra de desplazamiento */
+  }
+  .linksManager__linksListMobile__ul__li__description__label__prop {
+    display: inline-block;
+    font-size: 13px;
+  }
+  .linksManager__linksListMobile__ul__li__description__link {
+    text-decoration: none;
+    color: black;
+    font-size: 12px;
+    overflow-x: auto;
+    white-space: nowrap;
+    max-width: 90%;
+    -webkit-overflow-scrolling: touch;
+  }
+  .linksManager__linksListMobile__ul__li__description__link::-webkit-scrollbar {
+    display: none;
+  }
+  .linksManager__linksListMobile__ul__li__description__link__prop {
+    display: inline-block;
+    min-width: -moz-max-content;
+    min-width: max-content;
+    text-align: center;
+    color: black;
+    font-size: 13px;
+  }
+  .linksManager__linksListMobile__ul__li__itemBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5vh;
+  }
+  .linksManager__linksListMobile__ul__li__itemBtn__prop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    background-color: black;
+    color: white;
+    padding: 1vh 0vh;
+    font-size: 12px;
+    border-radius: 1vh;
+    cursor: pointer;
+  }
+  .linksManager__linksListMobile__ul__li__itemBtn__prop:hover {
+    background-color: white;
+    color: black;
+    border: 0.3vh solid black;
+  }
+  .linksManager__linksListMobile__ul__li__clicks {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column: -4/-1;
+  }
+  .linksManager__linksListMobile__ul__li__clicks__prop {
+    font-size: 16px;
+  }
+  .editModalContainer {
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999999;
+  }
+  .editModalContainer__editModal {
+    background-color: whitesmoke;
+    width: 50%;
+    height: auto;
+    position: relative;
+    border-radius: 2vh;
+  }
+  .editModalContainer__editModal__btnCloseModal {
+    position: absolute;
+    right: 1vh;
+    padding: 1vh;
+  }
+  .editModalContainer__editModal__btnCloseModal__prop {
+    background-color: black;
+    color: white;
+    padding: 1vh 1.5vh;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .editModalContainer__editModal__btnCloseModal__prop:hover {
+    background-color: white;
+    color: black;
+    border: 0.3vh solid black;
+  }
+  .editModalContainer__editModal__title {
+    padding: 2vh;
+    text-align: center;
+    font-size: 30px;
+  }
+  .editModalContainer__editModal__labelInputContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 1vh;
+  }
+  .editModalContainer__editModal__labelInputContainer__label {
+    width: 250px;
+    font-size: 20px;
+  }
+  .editModalContainer__editModal__labelInputContainer__input {
+    width: 250px;
+    height: 25px;
+  }
+  .editModalContainer__editModal__labelInputFileContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 1vh;
+  }
+  .editModalContainer__editModal__labelInputFileContainer__label {
+    width: 250px;
+    font-size: 20px;
+  }
+  .editModalContainer__editModal__labelInputFileContainer__img {
+    display: flex;
+    align-items: center;
+    width: 250px;
+  }
+  .editModalContainer__editModal__labelInputFileContainer__img__prop {
+    width: 25%;
+  }
+  .editModalContainer__editModal__footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1vh;
+    padding: 2vh;
+  }
+  .editModalContainer__editModal__footer__btn {
+    background-color: black;
+    color: white;
+    padding: 1vh 4vh;
+    font-size: 14px;
+    border-radius: 1vh;
+    cursor: pointer;
+  }
+  .editModalContainer__editModal__footer__btn:hover {
+    background-color: white;
+    color: black;
+    border: 0.3vh solid black;
+  }
+  .confirmationDeleteModalContainer {
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999999;
+  }
+  .confirmationDeleteModalContainer__confirmationModal {
+    background-color: whitesmoke;
+    max-width: 80%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5vh;
+    padding: 0vh 4vh 4vh 4vh;
+  }
+  .confirmationDeleteModalContainer__confirmationModal__btnCloseModal {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    padding: 2vh 0vh;
+  }
+  .confirmationDeleteModalContainer__confirmationModal__btnCloseModal__btn {
+    font-size: 20px;
+    padding-right: 2vh;
+    cursor: pointer;
+  }
+  .confirmationDeleteModalContainer__confirmationModal__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0vh 0vh 2vh 0vh;
+  }
+  .confirmationDeleteModalContainer__confirmationModal__title__prop {
+    text-align: center;
+    font-size: 22px;
+    white-space: pre-line;
+  }
+  .confirmationDeleteModalContainer__confirmationModal__btnContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2vh;
+    gap: 5vh;
+  }
+  .confirmationDeleteModalContainer__confirmationModal__btnContainer__btn {
+    width: 15%;
+    background-color: black;
+    color: white;
+    padding: 1vh 4vh;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1vh;
+    cursor: pointer;
+  }
+  .confirmationDeleteModalContainer__confirmationModal__btnContainer__btn:hover {
+    background-color: white;
+    color: black;
+    border: 0.3vh solid black;
+  }
+  .loginContainer {
+    background-color: whitesmoke;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .loginContainer__form {
+    background-color: rgb(214, 214, 214);
+    width: 75%;
+    border-radius: 2vh;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .loginContainer__form__title {
+    font-size: 28px;
+  }
+  .loginContainer__form__inputContainer {
+    width: 100%;
+    padding: 2vh 0vh;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1vh;
+  }
+  .loginContainer__form__inputContainer__input {
+    width: 70%;
+    height: 25px;
+    text-align: center;
+  }
+  .loginContainer__form__btn {
+    width: 40%;
+    background-color: black;
+    color: white;
+    padding: 1vh 4vh;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1vh;
+    cursor: pointer;
+  }
+  .loginContainer__form__btn:hover {
+    background-color: white;
+    color: black;
+    border: 0.3vh solid black;
+  }
+  .profileForm {
+    background-color: rgb(214, 214, 214);
+    display: flex;
+    flex-direction: column;
+    padding: 4vh 2vh;
+  }
+  .profileForm__title {
+    padding-bottom: 2vh;
+    font-size: 25px;
+  }
+  .profileForm__labelInput {
+    display: flex;
+    align-items: center;
+    padding: 0vh 0vh 2vh 2vh;
+  }
+  .profileForm__labelInput__label {
+    width: 120px;
+    font-size: 16px;
+  }
+  .profileForm__labelInput__input {
+    width: 200px;
+    height: 25px;
+    text-align: center;
+  }
+  .profileForm__labelInput__textArea {
+    width: 200px;
+    height: 50px;
+  }
+  .profileForm__labelInput__imgAvatar {
+    width: 20%;
+  }
+  .profileForm__labelInputFile {
+    display: flex;
+    flex-direction: column;
+    padding-left: 2vh;
+    padding-top: 1vh;
+  }
+  .profileForm__btn {
+    padding: 2vh 0vh 0vh 0vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .profileForm__btn__prop {
+    background-color: black;
+    color: white;
+    padding: 1vh 4vh;
+    font-size: 14px;
+    border-radius: 1vh;
+    cursor: pointer;
+  }
+  .profileForm__btn__prop:hover {
+    background-color: white;
+    color: black;
+    border: 0.3vh solid black;
+  }
   .homeContainer {
-    background-color: rgb(126, 219, 20);
+    background-color: whitesmoke;
     width: 100%;
     height: 100vh;
     display: flex;
@@ -639,7 +1088,6 @@
 }
 @media (min-width: 376px) and (max-width: 480px) {
   .homeContainer {
-    background-color: rgb(126, 219, 20);
     width: 100%;
     height: 100vh;
     display: flex;
@@ -736,7 +1184,7 @@
 }
 @media (min-width: 600px) and (max-width: 900px) and (orientation: portrait) {
   .homeContainer {
-    background-color: rgb(126, 219, 20);
+    background-color: whitesmoke;
     width: 100%;
     height: 100vh;
     display: flex;
@@ -776,7 +1224,7 @@
     align-items: center;
   }
   .homeContainer__linkTreeContainer__description__prop {
-    width: 65%;
+    width: 60%;
     padding-top: 1vh;
     font-size: 18px;
   }
@@ -789,7 +1237,7 @@
     gap: 1vh;
   }
   .homeContainer__linkTreeContainer__links__link {
-    width: 80%;
+    width: 65%;
     background-color: rgba(0, 0, 0, 0.6);
     border-radius: 4vh;
     position: relative;
@@ -802,8 +1250,8 @@
     left: 2vh;
     top: 50%;
     transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
   }
   .homeContainer__linkTreeContainer__links__link__img__prop {
     width: 100%;
@@ -827,13 +1275,13 @@
     min-width: max-content;
     text-align: center;
     color: white;
-    font-size: 14px;
+    font-size: 16px;
     padding: 0 8px;
   }
 }
 @media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
   .homeContainer {
-    background-color: rgb(126, 219, 20);
+    background-color: whitesmoke;
     width: 100%;
     height: 100vh;
     display: flex;
@@ -930,7 +1378,7 @@
 }
 @media (min-width: 1024px) and (max-width: 1439px) {
   .homeContainer {
-    background-color: rgb(126, 219, 20);
+    background-color: whitesmoke;
     width: 100%;
     height: 100vh;
     display: flex;

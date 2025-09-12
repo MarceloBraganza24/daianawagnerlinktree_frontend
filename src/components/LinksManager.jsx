@@ -307,6 +307,7 @@ export default function LinksManager() {
             <div className="linksManager__labelInput">
               <div className="linksManager__labelInput__label">Imagen link</div>
               <input
+              className="linksManager__labelInput__input"
               type="file"
               accept="image/*"
               ref={fileInputRef}
@@ -372,7 +373,9 @@ export default function LinksManager() {
                             <div className="linksManager__linksList__ul__li__description">
                               <p className="linksManager__linksList__ul__li__description__label">{link.descripcion_link || "(Sin descripción)"}</p>
                               <a className="linksManager__linksList__ul__li__description__link" href={link.url_destino} target="_blank" rel="noreferrer">
-                                {link.url_destino}
+                                <div className="linksManager__linksList__ul__li__description__link__prop">
+                                  {link.url_destino}
+                                </div>
                               </a>
                             </div>
 
@@ -381,6 +384,89 @@ export default function LinksManager() {
                               <button className="linksManager__linksList__ul__li__itemBtn__prop" onClick={() => handleBtnRemoveLink(link._id, link.descripcion_link)}>Eliminar</button>
                             </div>
                             <div className="linksManager__linksList__ul__li__clicks">Clics: {link.clicks || 0}</div>
+                          </li>
+                          </>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </ul>
+                )}
+              </Droppable>
+            </DragDropContext>
+          )}
+        </div>
+
+        <div className="linksManager__linksListMobile">
+          {loading ? (
+            <p>Cargando links…</p>
+          ) : links.length === 0 ? (
+            <p>No hay links aún.</p>
+          ) : (
+            <DragDropContext onDragEnd={handleDragEnd}>
+              <Droppable droppableId="links">
+                {(provided) => (
+                  <ul
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="linksManager__linksListMobile__ul"
+                  >
+                    {links.map((link, index) => (
+                      <Draggable key={link._id} draggableId={link._id} index={index}>
+                        {(provided) => (
+                          <>
+                          <li
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className="linksManager__linksListMobile__ul__li"
+                          >
+
+
+
+                            <div className="linksManager__linksListMobile__ul__li__imgLink">
+                              {link.img_link ? (
+                                <img
+                                  src={`${API_URL}${link.img_link}`}
+                                  alt="thumb"
+                                  className="linksManager__linksListMobile__ul__li__imgLink__prop"
+                                />
+                              ) : (
+                                <div>sin imagen</div>
+                              )}
+                            </div>
+
+
+
+                            <div className="linksManager__linksListMobile__ul__li__description">
+                                <div className="linksManager__linksListMobile__ul__li__description__label">
+                                    <div className="linksManager__linksListMobile__ul__li__description__label__prop">
+                                        {link.descripcion_link || "(Sin descripción)"}
+                                    </div>
+                                </div>
+                                <a className="linksManager__linksListMobile__ul__li__description__link" href={link.url_destino} target="_blank" rel="noreferrer">
+                                    <div className="linksManager__linksListMobile__ul__li__description__link__prop">
+                                    {link.url_destino}
+                                    </div>
+                                </a>
+                            </div>
+
+
+
+                            <div className="linksManager__linksListMobile__ul__li__itemBtn">
+                              <button className="linksManager__linksListMobile__ul__li__itemBtn__prop" onClick={() => openEdit(link)}>Editar</button>
+                              <button className="linksManager__linksListMobile__ul__li__itemBtn__prop" onClick={() => handleBtnRemoveLink(link._id, link.descripcion_link)}>Eliminar</button>
+                            </div>
+
+
+
+                            <div className="linksManager__linksListMobile__ul__li__clicks">
+                              <div className="linksManager__linksListMobile__ul__li__clicks__prop">Clics: {link.clicks || 0}</div>
+                            </div>
+
+
+
+
                           </li>
                           </>
                         )}
