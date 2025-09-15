@@ -1,4 +1,3 @@
-// components/ProfileForm.jsx
 import React, { useEffect, useState } from "react";
 import { authHeaders } from "../utils/authHeaders";
 import { toast } from "react-toastify";
@@ -23,8 +22,6 @@ export default function ProfileForm() {
             setDescripcion(data.descripcionProfesional || "");
             setAvatarUrl(data.avatar || "");
           }
-        } else {
-          // opcional: manejo de errores
         }
       } catch (err) {
         console.error(err);
@@ -56,7 +53,6 @@ export default function ProfileForm() {
 
       if (!res.ok) {
         const err = await res.json().catch(() => ({ error: "Error" }));
-        //alert("Error: " + (err.error || "No se pudo guardar"));
         toast(`Ha ocurrido un error al guardar, intente nuevamente!`, {
             position: "top-right",
             autoClose: 2000,
@@ -85,7 +81,6 @@ export default function ProfileForm() {
           className: "custom-toast",
       });
     } catch (err) {
-      //alert("Error al guardar perfil");
       console.error("Error: ",err)
     } finally {
       setSaving(false);

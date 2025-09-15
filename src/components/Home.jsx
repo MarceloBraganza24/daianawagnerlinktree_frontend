@@ -5,7 +5,15 @@ import { setFavicon } from "../utils/setFavicon";
 const Home = () => {
     const [profile, setProfile] = useState(null);
     const [links, setLinks] = useState([]);
+    const [config, setConfig] = useState(null);
     const API_URL = import.meta.env.VITE_API_URL;
+
+    useEffect(() => {
+        fetch(`${API_URL}/api/config`)
+        .then(res => res.json())
+        .then(data => setConfig(data))
+        .catch(err => console.error("Error cargando config:", err));
+    }, []);
 
     useEffect(() => {
         axios.get(`${API_URL}/api/public/home`)
@@ -19,13 +27,38 @@ const Home = () => {
         .catch(err => console.error(err));
     }, []);
 
+    function hexToRgba(hex, opacity) {
+        const bigint = parseInt(hex.slice(1), 16);
+        const r = (bigint >> 16) & 255;
+        const g = (bigint >> 8) & 255;
+        const b = bigint & 255;
+        return `rgba(${r},${g},${b},${opacity})`;
+    }
+
     return (
 
         <>
 
-            <div className='homeContainer'>
-
-                <div  className='homeContainer__linkTreeContainer'>
+            <div
+                className="homeContainer"
+                style={{
+                    background: config
+                    ? config.homeBackgroundType === "color"
+                        ? config.homeBackgroundValue
+                        : `url(${API_URL}${config.homeBackgroundValue}) center/cover no-repeat`
+                    : "#d3d3d3", // fallback
+                }}
+            >
+                <div
+                    className="homeContainer__linkTreeContainer"
+                    style={{
+                        background: config?.linkTreeBackgroundType === "color"
+                        ? hexToRgba(config.linkTreeBackgroundValue, config.linkTreeBackgroundOpacity || 0.7)
+                        : config?.linkTreeBackgroundValue
+                        ? `url(${API_URL}${config.linkTreeBackgroundValue}) center/cover no-repeat`
+                        : "",
+                    }}
+                >
 
                     {
                         profile?.nombreProfesional &&

@@ -40,7 +40,6 @@ export default function Login() {
       localStorage.setItem("token", data.token);
       navigate("/admin");
     } catch (err) {
-      //alert("Error al conectar con el servidor");
       toast(`Error al conectar con el servidor`, {
           position: "top-right",
           autoClose: 2000,

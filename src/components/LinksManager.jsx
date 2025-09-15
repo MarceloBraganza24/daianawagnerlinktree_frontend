@@ -1,9 +1,7 @@
-// components/LinksManager.jsx
 import React, { useEffect, useState,useRef  } from "react";
 import Modal from "./Modal";
 import { authHeaders } from "../utils/authHeaders";
 import Spinner from "./Spinner";
-//import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 export default function LinksManager() {
@@ -68,8 +66,6 @@ export default function LinksManager() {
       });
 
       if (!res.ok) {
-        //const err = await res.json().catch(() => ({}));
-        //alert("Error al crear: " + (err.error || res.status));
         toast(`Error al crear link, intente nuevamente!`, {
             position: "top-right",
             autoClose: 2000,
@@ -99,7 +95,6 @@ export default function LinksManager() {
             theme: "dark",
             className: "custom-toast",
         });
-      //alert("Error al conectar con el servidor");
     } finally {
       setCreating(false);
     }
@@ -134,7 +129,6 @@ export default function LinksManager() {
       });
 
       if (!res.ok) {
-        //const err = await res.json().catch(() => ({}));
         toast(`Error al actualizar link, intente nuevamente!`, {
               position: "top-right",
               autoClose: 2000,
@@ -146,7 +140,6 @@ export default function LinksManager() {
               theme: "dark",
               className: "custom-toast",
         });
-        //alert("Error al actualizar: " + (err.error || res.status));
         return;
       }
       setEditOpen(false);
@@ -165,7 +158,6 @@ export default function LinksManager() {
             theme: "dark",
             className: "custom-toast",
       });
-      //alert("Error al conectar con el servidor");
     } finally {
       setSavingEdit(false);
     }
@@ -188,7 +180,6 @@ export default function LinksManager() {
             headers: authHeaders(false),
           });
           if (!res.ok) {
-            //const err = await res.json().catch(() => ({}));
             toast(`Error al eliminar link, intente nuevamente!`, {
                   position: "top-right",
                   autoClose: 2000,
@@ -200,7 +191,6 @@ export default function LinksManager() {
                   theme: "dark",
                   className: "custom-toast",
             });
-            //alert("Error al eliminar: " + (err.error || res.status));
             return;
           }
           fetchLinks();
@@ -217,7 +207,6 @@ export default function LinksManager() {
                 theme: "dark",
                 className: "custom-toast",
           });
-          //alert("Error al conectar con el servidor");
         } finally {
           setLoading(false)
         }
