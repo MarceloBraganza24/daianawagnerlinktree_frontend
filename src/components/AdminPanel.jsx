@@ -17,7 +17,7 @@ export default function AdminPanel() {
       axios.get(`${API_URL}/api/public/home`)
       .then(res => {
           if (res.data.profile?.avatar) {
-              setFavicon(`${API_URL}${res.data.profile.avatar}`);
+              setFavicon(`${res.data.profile.avatar}`);
           }
       })
       .catch(err => console.error(err));

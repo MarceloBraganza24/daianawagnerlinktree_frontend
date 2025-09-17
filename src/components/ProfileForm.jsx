@@ -109,10 +109,25 @@ export default function ProfileForm() {
 
             <div className="profileForm__labelInput">
               <label className="profileForm__labelInput__label">Foto de perfil</label>
-              {avatarFile ? (
+              {/* {avatarFile ? (
                 <img src={URL.createObjectURL(avatarFile)} alt="preview" className="profileForm__labelInput__imgAvatar" />
               ) : avatarUrl ? (
                 <img src={`${API_URL}${avatarUrl}`} alt="avatar" className="profileForm__labelInput__imgAvatar" />
+              ) : (
+                <div className="">Sin imagen</div>
+              )} */}
+              {avatarFile ? (
+                <img
+                  src={URL.createObjectURL(avatarFile)}
+                  alt="preview"
+                  className="profileForm__labelInput__imgAvatar"
+                />
+              ) : avatarUrl ? (
+                <img
+                  src={avatarUrl} // ✅ ya es URL completa (Cloud Storage)
+                  alt="avatar"
+                  className="profileForm__labelInput__imgAvatar"
+                />
               ) : (
                 <div className="">Sin imagen</div>
               )}

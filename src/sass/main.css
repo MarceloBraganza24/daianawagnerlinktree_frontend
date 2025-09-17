@@ -67,6 +67,15 @@
   height: 25px;
   text-align: center;
 }
+.linksManager__preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.linksManager__preview__img {
+  width: 50px;
+  height: 50px;
+}
 .linksManager__btn {
   padding-left: 2vh;
 }
@@ -578,6 +587,7 @@
   width: 80%;
   color: white;
   padding-top: 1vh;
+  text-align: center;
   font-size: 18px;
 }
 .homeContainer__linkTreeContainer__links {
@@ -1235,6 +1245,7 @@
     width: 90%;
     padding-top: 1vh;
     font-size: 16px;
+    text-align: center;
   }
   .homeContainer__linkTreeContainer__links {
     width: 100%;
@@ -1330,6 +1341,7 @@
   .homeContainer__linkTreeContainer__description__prop {
     width: 80%;
     padding-top: 1vh;
+    text-align: center;
     font-size: 16px;
   }
   .homeContainer__linkTreeContainer__links {
@@ -1980,6 +1992,7 @@
   .homeContainer__linkTreeContainer__description__prop {
     width: 70%;
     padding-top: 1vh;
+    text-align: center;
     font-size: 18px;
   }
   .homeContainer__linkTreeContainer__links {
@@ -3184,6 +3197,7 @@
   .homeContainer__linkTreeContainer__description__prop {
     width: 75%;
     padding-top: 1vh;
+    text-align: center;
     font-size: 16px;
   }
   .homeContainer__linkTreeContainer__links {
@@ -3614,6 +3628,7 @@
     width: 70%;
     padding-top: 1vh;
     font-size: 15px;
+    text-align: center;
   }
   .homeContainer__linkTreeContainer__links {
     width: 100%;

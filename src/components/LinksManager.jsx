@@ -3,6 +3,7 @@ import Modal from "./Modal";
 import { authHeaders } from "../utils/authHeaders";
 import Spinner from "./Spinner";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import { toast } from "react-toastify";
 
 export default function LinksManager() {
   const emptyForm = { url_destino: "", img_link: "", descripcion_link: "" };
@@ -13,6 +14,10 @@ export default function LinksManager() {
   const fileInputRef = useRef(null);
   const API_URL = import.meta.env.VITE_API_URL;
 
+  const [filePreviewUrl, setFilePreviewUrl] = useState(null); // para nuevo link
+  const [editPreviewUrl, setEditPreviewUrl] = useState(null); // para edición
+
+
   // edición
   const [editOpen, setEditOpen] = useState(false);
   const [editForm, setEditForm] = useState(emptyForm);
@@ -20,6 +25,7 @@ export default function LinksManager() {
   const [savingEdit, setSavingEdit] = useState(false);
   
   const [file, setFile] = useState(null);
+  const [createPreviewUrl, setCreatePreviewUrl] = useState(null);
   const [editFile, setEditFile] = useState(null);
   
   const [showConfirmationDeleteLinkModal, setShowConfirmationDeleteLinkModal] = useState(false);
@@ -56,6 +62,7 @@ export default function LinksManager() {
       formData.append("url_destino", form.url_destino);
       formData.append("descripcion_link", form.descripcion_link);
       if (file) formData.append("img_link", file);
+      //if (file) setFilePreviewUrl(URL.createObjectURL(file)); // preview local
 
       const res = await fetch(`${API_URL}/api/links`, {
         method: "POST",
@@ -79,9 +86,22 @@ export default function LinksManager() {
         });
         return;
       }
+      // limpiar estados
       setForm(emptyForm);
       setFile(null);
+      setCreatePreviewUrl(null); // 👈 limpiamos preview
       if (fileInputRef.current) fileInputRef.current.value = "";
+      toast(`Has creado un link correctamente!`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          className: "custom-toast",
+      });
       await fetchLinks();
     } catch (err) {
       toast(`Error al conectar con el servidor`, {
@@ -101,6 +121,15 @@ export default function LinksManager() {
   };
 
 
+  /* const openEdit = (link) => {
+    setEditId(link._id);
+    setEditForm({
+      url_destino: link.url_destino || "",
+      img_link: link.img_link || "",
+      descripcion_link: link.descripcion_link || "",
+    });
+    setEditOpen(true);
+  }; */
   const openEdit = (link) => {
     setEditId(link._id);
     setEditForm({
@@ -108,6 +137,8 @@ export default function LinksManager() {
       img_link: link.img_link || "",
       descripcion_link: link.descripcion_link || "",
     });
+    setEditPreviewUrl(link.img_link || null); // 👈 preview inicial desde GCS
+    setEditFile(null); // reiniciamos archivo seleccionado
     setEditOpen(true);
   };
 
@@ -142,9 +173,22 @@ export default function LinksManager() {
         });
         return;
       }
+      // cerrar modal y limpiar estados
       setEditOpen(false);
       setEditId(null);
       setEditFile(null);
+      setEditPreviewUrl(null);
+      toast(`Has actualizado el link correctamente!`, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            className: "custom-toast",
+      });
       fetchLinks();
     } catch (err) {
       toast(`Error al conectar con el servidor`, {
@@ -300,8 +344,33 @@ export default function LinksManager() {
               type="file"
               accept="image/*"
               ref={fileInputRef}
-              onChange={(e) => setFile(e.target.files[0])}
+              //onChange={(e) => setFile(e.target.files[0])}
+              /* onChange={(e) => {
+                const selectedFile = e.target.files[0];
+                setFile(selectedFile);
+                if (selectedFile) setFilePreviewUrl(URL.createObjectURL(selectedFile));
+                else setFilePreviewUrl(null);
+              }} */
+              onChange={(e) => {
+                const selectedFile = e.target.files[0];
+                setFile(selectedFile);
+                if (selectedFile) {
+                  setCreatePreviewUrl(URL.createObjectURL(selectedFile));
+                } else {
+                  setCreatePreviewUrl(null);
+                }
+              }}
               />
+
+              {createPreviewUrl && (
+                <div className="linksManager__preview">
+                  <img
+                    src={createPreviewUrl}
+                    alt="preview"
+                    className="linksManager__preview__img"
+                  />
+                </div>
+              )}
             </div>
 
             <div className="linksManager__labelInput">
@@ -348,9 +417,9 @@ export default function LinksManager() {
                             className="linksManager__linksList__ul__li"
                           >
                             <div className="linksManager__linksList__ul__li__imgLink">
-                              {link.img_link ? (
+                              {link.filePreviewUrl || link.img_link ? (
                                 <img
-                                  src={`${API_URL}${link.img_link}`}
+                                  src={link.filePreviewUrl || link.img_link}
                                   alt="thumb"
                                   className="linksManager__linksList__ul__li__imgLink__prop"
                                 />
@@ -414,9 +483,9 @@ export default function LinksManager() {
 
 
                             <div className="linksManager__linksListMobile__ul__li__imgLink">
-                              {link.img_link ? (
+                              { link.img_link || link.filePreviewUrl ? (
                                 <img
-                                  src={`${API_URL}${link.img_link}`}
+                                  src={link.filePreviewUrl || link.img_link}
                                   alt="thumb"
                                   className="linksManager__linksListMobile__ul__li__imgLink__prop"
                                 />
@@ -495,10 +564,10 @@ export default function LinksManager() {
             <div className="editModalContainer__editModal__labelInputFileContainer__label">
               Imagen actual
             </div>
-            {editForm.img_link ? (
+            {editPreviewUrl ? (
               <div className="editModalContainer__editModal__labelInputFileContainer__img">
                 <img
-                  src={`${API_URL}${editForm.img_link}`}
+                  src={`${editPreviewUrl}`}
                   alt="preview"
                   className="editModalContainer__editModal__labelInputFileContainer__img__prop"
                   />
@@ -518,7 +587,13 @@ export default function LinksManager() {
               className="editModalContainer__editModal__labelInputContainer__input"
               type="file"
               accept="image/*"
-              onChange={(e) => setEditFile(e.target.files[0])}
+              //onChange={(e) => setEditFile(e.target.files[0])}
+              onChange={(e) => {
+                const selectedFile = e.target.files[0];
+                setEditFile(selectedFile);
+                if (selectedFile) setEditPreviewUrl(URL.createObjectURL(selectedFile));
+                else setEditPreviewUrl(editForm.img_link || null);
+              }}
             />
           </div>
 

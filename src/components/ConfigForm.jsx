@@ -9,12 +9,15 @@ export default function ConfigForm() {
   // Home
   const [homeType, setHomeType] = useState("color");
   const [homeColor, setHomeColor] = useState("#d3d3d3");
-  const [homeImage, setHomeImage] = useState(null);
+  const [homeImage, setHomeImage] = useState(null); // solo File
+  const [homePreviewUrl, setHomePreviewUrl] = useState(null); // URL local o GCS
+
 
   // Linktree
   const [linkTreeType, setLinkTreeType] = useState("image");
   const [linkTreeColor, setLinkTreeColor] = useState("#000000");
   const [linkTreeImage, setLinkTreeImage] = useState(null);
+  const [linkTreePreviewUrl, setLinkTreePreviewUrl] = useState(null); // URL local o GCS
   const [linkTreeOpacity, setLinkTreeOpacity] = useState(1);
 
 
@@ -27,15 +30,19 @@ export default function ConfigForm() {
 
         // Home
         setHomeType(data.homeBackgroundType);
-        if (data.homeBackgroundType === "color") setHomeColor(data.homeBackgroundValue);
-        else setHomeImage(null); // imagen la cargamos al subir
+        if (data.homeBackgroundType === "color") {
+          setHomeColor(data.homeBackgroundValue);
+        } else {
+          setHomePreviewUrl(data.homeBackgroundValue); // GCS URL
+        }
 
         // Linktree
         setLinkTreeType(data.linkTreeBackgroundType);
         if (data.linkTreeBackgroundType === "color") {
           setLinkTreeColor(data.linkTreeBackgroundValue);
+          setLinkTreeOpacity(data.linkTreeBackgroundOpacity || 0.7);
         } else {
-          setLinkTreeImage(null); // la imagen se carga al subir
+          setLinkTreePreviewUrl(data.linkTreeBackgroundValue); // 👈 GCS URL
         }
       })
       .catch((err) => console.error("Error cargando config:", err));
@@ -47,16 +54,20 @@ export default function ConfigForm() {
 
     // Home
     formData.append("homeBackgroundType", homeType);
-    if (homeType === "color") formData.append("homeBackgroundColor", homeColor);
-    else if (homeImage) formData.append("homeBackgroundImage", homeImage);
+    if (homeType === "color") {
+      formData.append("homeBackgroundColor", homeColor);
+    } else if (homeImage instanceof File) {
+      // 👈 solo mando si es un archivo
+      formData.append("homeBackgroundImage", homeImage);
+    }
 
     // Linktree
     formData.append("linkTreeBackgroundType", linkTreeType);
-
     if (linkTreeType === "color") {
       formData.append("linkTreeBackgroundColor", linkTreeColor);
-      formData.append("linkTreeBackgroundOpacity", linkTreeOpacity); // 👈 nuevo campo
-    } else if (linkTreeImage) {
+      formData.append("linkTreeBackgroundOpacity", linkTreeOpacity);
+    } else if (linkTreeImage instanceof File) {
+      // 👈 solo mando si es un archivo
       formData.append("linkTreeBackgroundImage", linkTreeImage);
     }
 
@@ -67,18 +78,30 @@ export default function ConfigForm() {
 
     const data = await res.json();
     setConfig(data);
+
+    // ✅ refrescamos el estado local con las URLs que devuelve el backend
+    if (data.homeBackgroundType === "image") {
+      setHomePreviewUrl(data.homeBackgroundValue);  // 👈 usamos previewUrl
+      setHomeImage(null); // limpiamos File para no confundir
+    }
+    if (data.linkTreeBackgroundType === "image") {
+      setLinkTreePreviewUrl(data.linkTreeBackgroundValue); // 👈 usamos previewUrl
+      setLinkTreeImage(null);
+    }
+
     toast(`Configuración actualizada ✅`, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          className: "custom-toast",
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      className: "custom-toast",
     });
   };
+
 
   function hexToRgba(hex, alpha) {
     let r = 0, g = 0, b = 0;
@@ -101,6 +124,14 @@ export default function ConfigForm() {
 
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   }
+
+  useEffect(() => {
+    return () => {
+      if (homePreviewUrl?.startsWith("blob:")) {
+        URL.revokeObjectURL(homePreviewUrl);
+      }
+    };
+  }, [homePreviewUrl]);
 
 
   return (
@@ -143,7 +174,15 @@ export default function ConfigForm() {
               <input type="color" value={homeColor} onChange={(e) => setHomeColor(e.target.value)} />
             )}
             {homeType === "image" && (
-              <input type="file" accept="image/*" onChange={(e) => setHomeImage(e.target.files[0])} />
+              <input 
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setHomeImage(file);
+                  setHomePreviewUrl(URL.createObjectURL(file)); // preview local
+                }} 
+              />
             )}
 
             {config && (
@@ -155,8 +194,10 @@ export default function ConfigForm() {
                     background:
                       homeType === "color"
                         ? homeColor
-                        : config.homeBackgroundValue
-                        ? `url(${API_URL}${config.homeBackgroundValue}) center/cover no-repeat`
+                        : homeImage
+                        ? `url(${URL.createObjectURL(homeImage)}) center/cover no-repeat`
+                        : homePreviewUrl
+                        ? `url(${homePreviewUrl}) center/cover no-repeat`
                         : "#d3d3d3",
                   }}
                 />
@@ -200,7 +241,16 @@ export default function ConfigForm() {
             <input className="configForm__sectionMobile__inputColor" type="color" value={homeColor} onChange={(e) => setHomeColor(e.target.value)} />
           )}
           {homeType === "image" && (
-            <input className="configForm__sectionMobile__inputFile" type="file" accept="image/*" onChange={(e) => setHomeImage(e.target.files[0])} />
+            <input
+              className="configForm__sectionMobile__inputFile"
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                setHomeImage(file);
+                setHomePreviewUrl(URL.createObjectURL(file)); // preview local
+              }} 
+            />
           )}
 
           {config && (
@@ -212,8 +262,10 @@ export default function ConfigForm() {
                   background:
                     homeType === "color"
                       ? homeColor
-                      : config.homeBackgroundValue
-                      ? `url(${API_URL}${config.homeBackgroundValue}) center/cover no-repeat`
+                      : homeImage
+                      ? `url(${URL.createObjectURL(homeImage)}) center/cover no-repeat`
+                      : homePreviewUrl
+                      ? `url(${homePreviewUrl}) center/cover no-repeat`
                       : "#d3d3d3",
                 }}
               />
@@ -281,7 +333,11 @@ export default function ConfigForm() {
               <input
                 type="file"
                 accept="image/*"
-                onChange={(e) => setLinkTreeImage(e.target.files[0])}
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setLinkTreeImage(file);
+                  setLinkTreePreviewUrl(URL.createObjectURL(file));
+                }}
               />
             )}
             {config && (
@@ -292,9 +348,11 @@ export default function ConfigForm() {
                   style={{
                     background:
                       linkTreeType === "color"
-                        ? linkTreeColor
-                        : config.linkTreeBackgroundValue
-                        ? `url(${API_URL}${config.linkTreeBackgroundValue}) center/cover no-repeat`
+                        ? hexToRgba(linkTreeColor, linkTreeOpacity)
+                        : linkTreeImage
+                        ? `url(${URL.createObjectURL(linkTreeImage)}) center/cover no-repeat`
+                        : linkTreePreviewUrl
+                        ? `url(${linkTreePreviewUrl}) center/cover no-repeat`
                         : "#7a7a7aff",
                   }}
                 />
@@ -361,7 +419,11 @@ export default function ConfigForm() {
             <input
               type="file"
               accept="image/*"
-              onChange={(e) => setLinkTreeImage(e.target.files[0])}
+              onChange={(e) => {
+                const file = e.target.files[0];
+                setLinkTreeImage(file);
+                setLinkTreePreviewUrl(URL.createObjectURL(file));
+              }}
             />
           )}
           {config && (
@@ -372,9 +434,11 @@ export default function ConfigForm() {
                 style={{
                   background:
                     linkTreeType === "color"
-                      ? linkTreeColor
-                      : config.linkTreeBackgroundValue
-                      ? `url(${API_URL}${config.linkTreeBackgroundValue}) center/cover no-repeat`
+                      ? hexToRgba(linkTreeColor, linkTreeOpacity)
+                      : linkTreeImage
+                      ? `url(${URL.createObjectURL(linkTreeImage)}) center/cover no-repeat`
+                      : linkTreePreviewUrl
+                      ? `url(${linkTreePreviewUrl}) center/cover no-repeat`
                       : "#7a7a7aff",
                 }}
               />

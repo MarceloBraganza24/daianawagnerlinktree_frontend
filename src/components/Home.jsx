@@ -20,8 +20,11 @@ const Home = () => {
         .then(res => {
             setProfile(res.data.profile);
             setLinks(res.data.links);
-            if (res.data.profile?.avatar) {
+            /* if (res.data.profile?.avatar) {
                 setFavicon(`${API_URL}${res.data.profile.avatar}`);
+            } */
+            if (res.data.profile?.avatar) {
+                setFavicon(res.data.profile.avatar);
             }
         })
         .catch(err => console.error(err));
@@ -45,18 +48,18 @@ const Home = () => {
                     background: config
                     ? config.homeBackgroundType === "color"
                         ? config.homeBackgroundValue
-                        : `url(${API_URL}${config.homeBackgroundValue}) center/cover no-repeat`
-                    : "#d3d3d3", // fallback
+                        : `url(${config.homeBackgroundValue}) center/cover no-repeat`
+                    : "#d3d3d3",
                 }}
             >
                 <div
                     className="homeContainer__linkTreeContainer"
                     style={{
                         background: config?.linkTreeBackgroundType === "color"
-                        ? hexToRgba(config.linkTreeBackgroundValue, config.linkTreeBackgroundOpacity || 0.7)
-                        : config?.linkTreeBackgroundValue
-                        ? `url(${API_URL}${config.linkTreeBackgroundValue}) center/cover no-repeat`
-                        : "",
+                            ? hexToRgba(config.linkTreeBackgroundValue, config.linkTreeBackgroundOpacity || 0.7)
+                            : config?.linkTreeBackgroundValue
+                            ? `url(${config.linkTreeBackgroundValue}) center/cover no-repeat`
+                            : "",
                     }}
                 >
 
@@ -66,7 +69,7 @@ const Home = () => {
                         <>
                         
                             <div  className='homeContainer__linkTreeContainer__img'>
-                                <img className='homeContainer__linkTreeContainer__img__prop' src={`${API_URL}${profile?.avatar}`} alt="img_client" />
+                                <img className='homeContainer__linkTreeContainer__img__prop' src={`${profile?.avatar}`} alt="img_client" />
                             </div>
 
                             <div className='homeContainer__linkTreeContainer__name'>{profile?.nombreProfesional}</div>
@@ -88,7 +91,7 @@ const Home = () => {
                                     >
 
                                         <div className='homeContainer__linkTreeContainer__links__link__img'>
-                                            <img className='homeContainer__linkTreeContainer__links__link__img__prop' src={`${API_URL}${link.img_link}`} alt="img_miniature" />
+                                            <img className='homeContainer__linkTreeContainer__links__link__img__prop' src={`${link.img_link}`} alt="img_miniature" />
                                         </div>
 
                                         <div className="homeContainer__linkTreeContainer__links__link__label">

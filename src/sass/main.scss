@@ -69,6 +69,13 @@
             text-align: center;
         }
     }
+    &__preview {
+        @include disfc();
+        &__img {
+            width: 50px;
+            height: 50px;
+        }
+    }
     &__btn {
         padding-left: 2vh;
         &__prop {
@@ -531,6 +538,7 @@
         width: 80%;
         color: white;
         padding-top: 1vh;
+        text-align: center;
         font-size: 18px;
       }
     }
@@ -1151,6 +1159,7 @@
                 width: 90%;
                 padding-top: 1vh;
                 font-size: 16px;
+                text-align: center;
             }
         }
         &__links {
@@ -1247,6 +1256,7 @@
             &__prop {
                 width: 80%;
                 padding-top: 1vh;
+                text-align: center;
                 font-size: 16px;
             }
         }
@@ -1859,6 +1869,7 @@
             &__prop {
                 width: 70%;
                 padding-top: 1vh;
+                text-align: center;
                 font-size: 18px;
             }
         }
@@ -2985,6 +2996,7 @@
             &__prop {
                 width: 75%;
                 padding-top: 1vh;
+                text-align: center;
                 font-size: 16px;
             }
         }
@@ -3392,6 +3404,7 @@
                 width: 70%;
                 padding-top: 1vh;
                 font-size: 15px;
+                text-align: center;
             }
         }
         &__links {
