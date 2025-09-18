@@ -6,6 +6,7 @@ import Home from './components/Home.jsx';
 import Login from './components/Login.jsx';
 import AdminPanel from './components/AdminPanel.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
+import AboutProfesional from './components/AboutProfesional.jsx';
 
 function App() {
 
@@ -16,18 +17,17 @@ function App() {
 
                 <Routes>
 
-                    {/* <Route exact path="/" element={<Home/>}/> */}
                     <Route path="/login" element={<Login />} />
                     <Route path="/home" element={<Home />} />
+                    <Route path="/aboutProfesional" element={<AboutProfesional />} />
                     <Route
-                    path="/admin"
-                    element={
-                        <PrivateRoute>
-                            <AdminPanel />
-                        </PrivateRoute>
-                    }
+                        path="/admin"
+                        element={
+                            <PrivateRoute>
+                                <AdminPanel />
+                            </PrivateRoute>
+                        }
                     />
-                    {/* Si querés redirigir la raíz al home público o al login: */}
                     <Route path="/" element={<Navigate to="/login" replace />} />
 
                 </Routes>

@@ -7,6 +7,7 @@ export default function ProfileForm() {
   const [saving, setSaving] = useState(false);
   const [nombreProfesional, setNombre] = useState("");
   const [descripcionProfesional, setDescripcion] = useState("");
+  const [aboutProfesional, setAboutProfesional] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [avatarFile, setAvatarFile] = useState(null);
   const API_URL = import.meta.env.VITE_API_URL;
@@ -20,6 +21,7 @@ export default function ProfileForm() {
           if (data) {
             setNombre(data.nombreProfesional || "");
             setDescripcion(data.descripcionProfesional || "");
+            setAboutProfesional(data.aboutProfesional || "");
             setAvatarUrl(data.avatar || "");
           }
         }
@@ -43,6 +45,7 @@ export default function ProfileForm() {
       const fd = new FormData();
       fd.append("nombreProfesional", nombreProfesional);
       fd.append("descripcionProfesional", descripcionProfesional);
+      fd.append("aboutProfesional", aboutProfesional);
       if (avatarFile) fd.append("avatar", avatarFile);
 
       const res = await fetch(`${API_URL}/api/profile`, {
@@ -136,6 +139,11 @@ export default function ProfileForm() {
             <div className="profileForm__labelInputFile">
               <input type="file" accept="image/*" onChange={handleFile} />
               <p className="">JPG/PNG/GIF. Máx 2MB.</p>
+            </div>
+
+            <div className="profileForm__labelInput" style={{paddingTop:'2vh'}}>
+              <label className="profileForm__labelInput__label">Sobre mí</label>
+              <textarea className="profileForm__labelInput__textArea" value={aboutProfesional} onChange={(e) => setAboutProfesional(e.target.value)} />
             </div>
 
             <div className="profileForm__btn">

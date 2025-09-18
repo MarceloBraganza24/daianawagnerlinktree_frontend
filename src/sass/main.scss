@@ -497,6 +497,49 @@
   background: #000;
   cursor: pointer;
 }
+.aboutProfesionalContainer {
+    width: 100%;
+    height: 100vh;
+    @include disfc();
+    &__aboutProfesional {
+        width: 50%;
+        padding: 8vh 4vh;
+        border-radius: 4vh;
+        color: white;
+        &__img {
+            @include disfc();
+            padding-bottom: 2vh;
+            &__prop {
+                width: 15%;
+            }
+        }
+        &__title {
+            @include disfc();
+            padding-bottom: 1vh;
+            &__prop {
+                font-size: 30px;
+            }
+        }
+        &__description {
+            @include disfc();
+            padding-bottom: 4vh;
+            &__prop {
+                width: 70%;
+                text-align: center;
+                font-size: 20px;
+            }
+        }
+        &__aboutText {
+            @include disfc();
+            &__prop {
+                width: 75%;
+                font-size: 20px;
+                text-align: justify;
+                hyphens: auto;
+            }
+        }
+    }
+}
 .homeContainer {
   width: 100%;
   height: 100vh;
@@ -1129,6 +1172,48 @@
         }
     }
 }
+.aboutProfesionalContainer {
+    width: 100%;
+    height: 100vh;
+    @include disfc();
+    &__aboutProfesional {
+        width: 75%;
+        padding: 4vh 2vh;
+        border-radius: 4vh;
+        color: white;
+        &__img {
+            @include disfc();
+            padding-bottom: 2vh;
+            &__prop {
+                width: 20%;
+            }
+        }
+        &__title {
+            @include disfc();
+            padding-bottom: 1vh;
+            &__prop {
+                font-size: 25px;
+            }
+        }
+        &__description {
+            @include disfc();
+            padding-bottom: 2vh;
+            &__prop {
+                width: 85%;
+                font-size: 12px;
+            }
+        }
+        &__aboutText {
+            @include disfc();
+            &__prop {
+                width: 90%;
+                font-size: 14px;
+                text-align: justify;
+                hyphens: auto;
+            }
+        }
+    }
+}
 .homeContainer {
     width: 100%;
     height: 100vh;
@@ -1227,6 +1312,48 @@
 }
 }
 @media (min-width: 376px) and (max-width: 480px) {
+.aboutProfesionalContainer {
+    width: 100%;
+    height: 100vh;
+    @include disfc();
+    &__aboutProfesional {
+        width: 70%;
+        padding: 4vh 4vh;
+        border-radius: 4vh;
+        color: white;
+        &__img {
+            @include disfc();
+            padding-bottom: 2vh;
+            &__prop {
+                width: 25%;
+            }
+        }
+        &__title {
+            @include disfc();
+            padding-bottom: 1vh;
+            &__prop {
+                font-size: 24px;
+            }
+        }
+        &__description {
+            @include disfc();
+            padding-bottom: 2vh;
+            &__prop {
+                width: 90%;
+                font-size: 14px;
+            }
+        }
+        &__aboutText {
+            @include disfc();
+            &__prop {
+                width: 95%;
+                font-size: 16px;
+                text-align: justify;
+                hyphens: auto;
+            }
+        }
+    }
+}
 .homeContainer {
     width: 100%;
     height: 100vh;
@@ -1840,6 +1967,48 @@
 }
 
 @media (min-width: 600px) and (max-width: 900px) and (orientation: portrait) {
+    .aboutProfesionalContainer {
+    width: 100%;
+    height: 100vh;
+    @include disfc();
+    &__aboutProfesional {
+        width: 70%;
+        padding: 4vh 4vh;
+        border-radius: 4vh;
+        color: white;
+        &__img {
+            @include disfc();
+            padding-bottom: 2vh;
+            &__prop {
+                width: 22%;
+            }
+        }
+        &__title {
+            @include disfc();
+            padding-bottom: 1vh;
+            &__prop {
+                font-size: 30px;
+            }
+        }
+        &__description {
+            @include disfc();
+            padding-bottom: 2vh;
+            &__prop {
+                width: 90%;
+                font-size: 18px;
+            }
+        }
+        &__aboutText {
+            @include disfc();
+            &__prop {
+                width: 95%;
+                font-size: 20px;
+                text-align: justify;
+                hyphens: auto;
+            }
+        }
+    }
+}
     .homeContainer {
     width: 100%;
     height: 100vh;
@@ -2967,6 +3136,48 @@
         }
     }
 }
+.aboutProfesionalContainer {
+    width: 100%;
+    height: 100vh;
+    @include disfc();
+    &__aboutProfesional {
+        width: 65%;
+        padding: 4vh 4vh;
+        border-radius: 4vh;
+        color: white;
+        &__img {
+            @include disfc();
+            padding-bottom: 2vh;
+            &__prop {
+                width: 20%;
+            }
+        }
+        &__title {
+            @include disfc();
+            padding-bottom: 1vh;
+            &__prop {
+                font-size: 30px;
+            }
+        }
+        &__description {
+            @include disfc();
+            padding-bottom: 2vh;
+            &__prop {
+                width: 90%;
+                font-size: 18px;
+            }
+        }
+        &__aboutText {
+            @include disfc();
+            &__prop {
+                width: 95%;
+                font-size: 18px;
+                text-align: justify;
+                hyphens: auto;
+            }
+        }
+    }
+}
     .homeContainer {
     width: 100%;
     height: 100vh;
@@ -3370,6 +3581,48 @@
                         }
                     }
                 }
+            }
+        }
+    }
+}
+.aboutProfesionalContainer {
+    width: 100%;
+    height: 100vh;
+    @include disfc();
+    &__aboutProfesional {
+        width: 60%;
+        padding: 6vh 2vh;
+        border-radius: 4vh;
+        color: white;
+        &__img {
+            @include disfc();
+            padding-bottom: 2vh;
+            &__prop {
+                width: 18%;
+            }
+        }
+        &__title {
+            @include disfc();
+            padding-bottom: 1vh;
+            &__prop {
+                font-size: 30px;
+            }
+        }
+        &__description {
+            @include disfc();
+            padding-bottom: 2vh;
+            &__prop {
+                width: 70%;
+                font-size: 16px;
+            }
+        }
+        &__aboutText {
+            @include disfc();
+            &__prop {
+                width: 75%;
+                font-size: 18px;
+                text-align: justify;
+                hyphens: auto;
             }
         }
     }

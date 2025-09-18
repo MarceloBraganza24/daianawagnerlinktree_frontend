@@ -20,9 +20,6 @@ const Home = () => {
         .then(res => {
             setProfile(res.data.profile);
             setLinks(res.data.links);
-            /* if (res.data.profile?.avatar) {
-                setFavicon(`${API_URL}${res.data.profile.avatar}`);
-            } */
             if (res.data.profile?.avatar) {
                 setFavicon(res.data.profile.avatar);
             }
@@ -79,28 +76,33 @@ const Home = () => {
                             </div>
 
                             <div className='homeContainer__linkTreeContainer__links'>
+                                {links.map(link => {
+                                    const isAboutMe = link.url_destino.includes("/aboutProfesional");
 
-                                {links.map(link => (
-
-                                    <a 
+                                    return (
+                                    <a
                                         className='homeContainer__linkTreeContainer__links__link'
                                         key={link._id}
                                         href={`${API_URL}/api/public/click/${link._id}`}
-                                        target="_blank"
-                                        rel="noreferrer"
+                                        target={isAboutMe ? "_self" : "_blank"}
+                                        rel={isAboutMe ? undefined : "noreferrer"}
                                     >
-
                                         <div className='homeContainer__linkTreeContainer__links__link__img'>
-                                            <img className='homeContainer__linkTreeContainer__links__link__img__prop' src={`${link.img_link}`} alt="img_miniature" />
+                                        <img
+                                            className='homeContainer__linkTreeContainer__links__link__img__prop'
+                                            src={link.img_link}
+                                            alt="img_miniature"
+                                        />
                                         </div>
 
                                         <div className="homeContainer__linkTreeContainer__links__link__label">
-                                            <div className='homeContainer__linkTreeContainer__links__link__label__prop'>{link.descripcion_link}</div>
+                                        <div className='homeContainer__linkTreeContainer__links__link__label__prop'>
+                                            {link.descripcion_link}
                                         </div>
-
+                                        </div>
                                     </a>
-                                ))}
-
+                                    );
+                                })}
                             </div>
 
                         </>

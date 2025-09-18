@@ -62,7 +62,6 @@ export default function LinksManager() {
       formData.append("url_destino", form.url_destino);
       formData.append("descripcion_link", form.descripcion_link);
       if (file) formData.append("img_link", file);
-      //if (file) setFilePreviewUrl(URL.createObjectURL(file)); // preview local
 
       const res = await fetch(`${API_URL}/api/links`, {
         method: "POST",
@@ -120,16 +119,6 @@ export default function LinksManager() {
     }
   };
 
-
-  /* const openEdit = (link) => {
-    setEditId(link._id);
-    setEditForm({
-      url_destino: link.url_destino || "",
-      img_link: link.img_link || "",
-      descripcion_link: link.descripcion_link || "",
-    });
-    setEditOpen(true);
-  }; */
   const openEdit = (link) => {
     setEditId(link._id);
     setEditForm({
@@ -344,13 +333,6 @@ export default function LinksManager() {
               type="file"
               accept="image/*"
               ref={fileInputRef}
-              //onChange={(e) => setFile(e.target.files[0])}
-              /* onChange={(e) => {
-                const selectedFile = e.target.files[0];
-                setFile(selectedFile);
-                if (selectedFile) setFilePreviewUrl(URL.createObjectURL(selectedFile));
-                else setFilePreviewUrl(null);
-              }} */
               onChange={(e) => {
                 const selectedFile = e.target.files[0];
                 setFile(selectedFile);
@@ -587,7 +569,6 @@ export default function LinksManager() {
               className="editModalContainer__editModal__labelInputContainer__input"
               type="file"
               accept="image/*"
-              //onChange={(e) => setEditFile(e.target.files[0])}
               onChange={(e) => {
                 const selectedFile = e.target.files[0];
                 setEditFile(selectedFile);
@@ -607,6 +588,7 @@ export default function LinksManager() {
               onChange={(e) =>
                 setEditForm({ ...editForm, url_destino: e.target.value })
               }
+              disabled={editForm.url_destino?.includes("/aboutProfesional")}
             />
           </div>
 
