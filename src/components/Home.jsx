@@ -50,7 +50,6 @@ const Home = () => {
                 }}
             >
                 <div
-                    className="homeContainer__linkTreeContainer"
                     style={{
                         background: config?.linkTreeBackgroundType === "color"
                             ? hexToRgba(config.linkTreeBackgroundValue, config.linkTreeBackgroundOpacity || 0.7)
@@ -58,6 +57,7 @@ const Home = () => {
                             ? `url(${config.linkTreeBackgroundValue}) center/cover no-repeat`
                             : "",
                     }}
+                    className="homeContainer__linkTreeContainer"
                 >
 
                     {

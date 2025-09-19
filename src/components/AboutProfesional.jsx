@@ -56,7 +56,6 @@ const AboutProfesional = () => {
             >
 
                 <div
-                    className='aboutProfesionalContainer__aboutProfesional'
                     style={{
                         background: config?.linkTreeBackgroundType === "color"
                             ? hexToRgba(config.linkTreeBackgroundValue, config.linkTreeBackgroundOpacity || 0.7)
@@ -64,6 +63,7 @@ const AboutProfesional = () => {
                             ? `url(${config.linkTreeBackgroundValue}) center/cover no-repeat`
                             : "",
                     }}
+                    className='aboutProfesionalContainer__aboutProfesional'
                 >
 
                     <div className='aboutProfesionalContainer__aboutProfesional__img'>
