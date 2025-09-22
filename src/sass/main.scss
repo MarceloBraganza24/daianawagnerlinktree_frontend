@@ -505,12 +505,22 @@
 .aboutProfesionalContainer {
     width: 100%;
     height: 100vh;
-    @include disfc();
+    display: flex;
+    justify-content: center;
+    align-items: end;
+
     &__aboutProfesional {
-        width: 50%;
-        padding: 8vh 4vh;
-        border-radius: 4vh;
+        width: 60%;
+        height: 75vh;
+        padding: 8vh 2vh 2vh 2vh;
+        border-top-left-radius: 4vh;
+        border-top-right-radius: 4vh;
         color: white;
+
+        display: flex;
+        flex-direction: column;   // Apilar los elementos
+        align-items: center;
+
         &__img {
             @include disfc();
             padding-bottom: 2vh;
@@ -520,6 +530,7 @@
                 border-radius: 50%;
             }
         }
+
         &__title {
             @include disfc();
             padding-bottom: 1vh;
@@ -527,7 +538,9 @@
                 font-size: 30px;
             }
         }
+
         &__description {
+            width: 100%;
             @include disfc();
             padding-bottom: 4vh;
             &__prop {
@@ -536,17 +549,36 @@
                 font-size: 20px;
             }
         }
+
         &__aboutText {
-            @include disfc();
+            flex: 1;                       
+            width: 100%;
+            overflow-y: auto;              
+            -webkit-overflow-scrolling: touch;
+            padding: 0 2vh;
+
+            // quitamos el centrado del contenedor
+            display: flex;
+            justify-content: center;      // centra horizontalmente el contenido
+            align-items: flex-start;      // asegura que arranque desde arriba
+
             &__prop {
-                width: 75%;
+                width: 85%;               // controla el ancho del texto
                 font-size: 20px;
-                text-align: justify;
+                text-align: left;
+                white-space: pre-line;
                 hyphens: auto;
             }
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
         }
+
+
     }
 }
+
 .homeContainer {
   width: 100%;
   height: 100vh;
@@ -1187,18 +1219,25 @@
 .aboutProfesionalContainer {
     width: 100%;
     height: 100vh;
-    @include disfc();
+    display: flex;
+    justify-content: center;
+    align-items: end;
     &__aboutProfesional {
-        width: 75%;
-        padding: 4vh 2vh;
-        border-radius: 4vh;
+        width: 80%;
+        height: 75vh;
+        padding: 6vh 2vh 2vh 2vh;
+        border-top-left-radius: 4vh;
+        border-top-right-radius: 4vh;
         color: white;
+        display: flex;
+        flex-direction: column;   // Apilar los elementos
+        align-items: center;
         &__img {
             @include disfc();
             padding-bottom: 2vh;
             &__prop {
-                width: 80px;
-                height: 80px;
+                width: 90px;
+                height: 90px;
                 border-radius: 50%;
             }
         }
@@ -1206,24 +1245,38 @@
             @include disfc();
             padding-bottom: 1vh;
             &__prop {
-                font-size: 25px;
+                font-size: 28px;
             }
         }
         &__description {
+            width: 100%;
             @include disfc();
-            padding-bottom: 2vh;
+            padding-bottom: 4vh;
             &__prop {
-                width: 85%;
-                font-size: 12px;
+                width: 70%;
+                text-align: center;
+                font-size: 18px;
             }
         }
         &__aboutText {
-            @include disfc();
+            flex: 1;                       
+            width: 100%;
+            overflow-y: auto;              
+            -webkit-overflow-scrolling: touch;
+            padding: 0 2vh;
+            // quitamos el centrado del contenedor
+            display: flex;
+            justify-content: center;      // centra horizontalmente el contenido
+            align-items: flex-start;      // asegura que arranque desde arriba
             &__prop {
-                width: 90%;
-                font-size: 14px;
-                text-align: justify;
+                width: 95%;               // controla el ancho del texto
+                font-size: 16px;
+                text-align: left;
                 hyphens: auto;
+                white-space: pre-line;
+            }
+            &::-webkit-scrollbar {
+                display: none;
             }
         }
     }
@@ -1333,15 +1386,22 @@
 }
 }
 @media (min-width: 376px) and (max-width: 480px) {
-.aboutProfesionalContainer {
+    .aboutProfesionalContainer {
     width: 100%;
     height: 100vh;
-    @include disfc();
+    display: flex;
+    justify-content: center;
+    align-items: end;
     &__aboutProfesional {
-        width: 70%;
-        padding: 4vh 4vh;
-        border-radius: 4vh;
+        width: 80%;
+        height: 75vh;
+        padding: 6vh 2vh 2vh 2vh;
+        border-top-left-radius: 4vh;
+        border-top-right-radius: 4vh;
         color: white;
+        display: flex;
+        flex-direction: column;   // Apilar los elementos
+        align-items: center;
         &__img {
             @include disfc();
             padding-bottom: 2vh;
@@ -1355,28 +1415,43 @@
             @include disfc();
             padding-bottom: 1vh;
             &__prop {
-                font-size: 24px;
+                font-size: 25px;
             }
         }
         &__description {
+            width: 100%;
             @include disfc();
-            padding-bottom: 2vh;
+            padding-bottom: 4vh;
             &__prop {
-                width: 90%;
-                font-size: 14px;
+                width: 70%;
+                text-align: center;
+                font-size: 18px;
             }
         }
         &__aboutText {
-            @include disfc();
+            flex: 1;                       
+            width: 100%;
+            overflow-y: auto;              
+            -webkit-overflow-scrolling: touch;
+            padding: 0 2vh;
+            // quitamos el centrado del contenedor
+            display: flex;
+            justify-content: center;      // centra horizontalmente el contenido
+            align-items: flex-start;      // asegura que arranque desde arriba
             &__prop {
-                width: 95%;
-                font-size: 16px;
-                text-align: justify;
+                width: 95%;               // controla el ancho del texto
+                font-size: 18px;
+                text-align: left;
                 hyphens: auto;
+                white-space: pre-line;
+            }
+            &::-webkit-scrollbar {
+                display: none;
             }
         }
     }
 }
+
 .homeContainer {
     width: 100%;
     height: 100vh;
@@ -2003,15 +2078,22 @@
 }
 
 @media (min-width: 600px) and (max-width: 900px) and (orientation: portrait) {
-    .aboutProfesionalContainer {
+.aboutProfesionalContainer {
     width: 100%;
     height: 100vh;
-    @include disfc();
+    display: flex;
+    justify-content: center;
+    align-items: end;
     &__aboutProfesional {
-        width: 70%;
-        padding: 4vh 4vh;
-        border-radius: 4vh;
+        width: 75%;
+        height: 75vh;
+        padding: 6vh 2vh 2vh 2vh;
+        border-top-left-radius: 4vh;
+        border-top-right-radius: 4vh;
         color: white;
+        display: flex;
+        flex-direction: column;   // Apilar los elementos
+        align-items: center;
         &__img {
             @include disfc();
             padding-bottom: 2vh;
@@ -2029,20 +2111,34 @@
             }
         }
         &__description {
+            width: 100%;
             @include disfc();
-            padding-bottom: 2vh;
+            padding-bottom: 4vh;
             &__prop {
-                width: 90%;
-                font-size: 18px;
+                width: 70%;
+                text-align: center;
+                font-size: 20px;
             }
         }
         &__aboutText {
-            @include disfc();
+            flex: 1;                       
+            width: 100%;
+            overflow-y: auto;              
+            -webkit-overflow-scrolling: touch;
+            padding: 0 2vh;
+            // quitamos el centrado del contenedor
+            display: flex;
+            justify-content: center;      // centra horizontalmente el contenido
+            align-items: flex-start;      // asegura que arranque desde arriba
             &__prop {
-                width: 95%;
-                font-size: 24px;
-                text-align: justify;
+                width: 90%;               // controla el ancho del texto
+                font-size: 22px;
+                text-align: left;
                 hyphens: auto;
+                white-space: pre-line;
+            }
+            &::-webkit-scrollbar {
+                display: none;
             }
         }
     }
@@ -3196,12 +3292,19 @@
 .aboutProfesionalContainer {
     width: 100%;
     height: 100vh;
-    @include disfc();
+    display: flex;
+    justify-content: center;
+    align-items: end;
     &__aboutProfesional {
-        width: 65%;
-        padding: 4vh 4vh;
-        border-radius: 4vh;
+        width: 75%;
+        height: 75vh;
+        padding: 6vh 2vh 2vh 2vh;
+        border-top-left-radius: 4vh;
+        border-top-right-radius: 4vh;
         color: white;
+        display: flex;
+        flex-direction: column;   // Apilar los elementos
+        align-items: center;
         &__img {
             @include disfc();
             padding-bottom: 2vh;
@@ -3215,24 +3318,38 @@
             @include disfc();
             padding-bottom: 1vh;
             &__prop {
-                font-size: 30px;
+                font-size: 28px;
             }
         }
         &__description {
+            width: 100%;
             @include disfc();
-            padding-bottom: 2vh;
+            padding-bottom: 4vh;
             &__prop {
-                width: 90%;
+                width: 70%;
+                text-align: center;
                 font-size: 18px;
             }
         }
         &__aboutText {
-            @include disfc();
+            flex: 1;                       
+            width: 100%;
+            overflow-y: auto;              
+            -webkit-overflow-scrolling: touch;
+            padding: 0 2vh;
+            // quitamos el centrado del contenedor
+            display: flex;
+            justify-content: center;      // centra horizontalmente el contenido
+            align-items: flex-start;      // asegura que arranque desde arriba
             &__prop {
-                width: 95%;
-                font-size: 22px;
-                text-align: justify;
+                width: 90%;               // controla el ancho del texto
+                font-size: 18px;
+                text-align: left;
                 hyphens: auto;
+                white-space: pre-line;
+            }
+            &::-webkit-scrollbar {
+                display: none;
             }
         }
     }
@@ -3658,21 +3775,32 @@
 .aboutProfesionalContainer {
     width: 100%;
     height: 100vh;
-    @include disfc();
+    display: flex;
+    justify-content: center;
+    align-items: end;
+
     &__aboutProfesional {
         width: 60%;
-        padding: 6vh 2vh;
-        border-radius: 4vh;
+        height: 75vh;
+        padding: 8vh 2vh 2vh 2vh;
+        border-top-left-radius: 4vh;
+        border-top-right-radius: 4vh;
         color: white;
+
+        display: flex;
+        flex-direction: column;   // Apilar los elementos
+        align-items: center;
+
         &__img {
             @include disfc();
             padding-bottom: 2vh;
             &__prop {
-                width: 90px;
-                height: 90px;
+                width: 110px;
+                height: 110px;
                 border-radius: 50%;
             }
         }
+
         &__title {
             @include disfc();
             padding-bottom: 1vh;
@@ -3680,23 +3808,44 @@
                 font-size: 30px;
             }
         }
+
         &__description {
+            width: 100%;
             @include disfc();
-            padding-bottom: 2vh;
+            padding-bottom: 4vh;
             &__prop {
                 width: 70%;
-                font-size: 16px;
+                text-align: center;
+                font-size: 20px;
             }
         }
+
         &__aboutText {
-            @include disfc();
+            flex: 1;                       
+            width: 100%;
+            overflow-y: auto;              
+            -webkit-overflow-scrolling: touch;
+            padding: 0 2vh;
+
+            // quitamos el centrado del contenedor
+            display: flex;
+            justify-content: center;      // centra horizontalmente el contenido
+            align-items: flex-start;      // asegura que arranque desde arriba
+
             &__prop {
-                width: 75%;
-                font-size: 18px;
-                text-align: justify;
+                width: 85%;               // controla el ancho del texto
+                font-size: 20px;
+                text-align: left;
                 hyphens: auto;
+                white-space: pre-line;
+            }
+
+            &::-webkit-scrollbar {
+                display: none;
             }
         }
+
+
     }
 }
 .homeContainer {
